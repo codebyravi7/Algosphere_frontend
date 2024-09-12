@@ -22,27 +22,39 @@ function App() {
           path="/"
           element={authUser ? <Homepage /> : <Navigate to="/login" />}
         />
-        <Route path="/posts" element={authUser ? <Homepage /> : <Login />} />
         <Route
-          path="/search/blog"
-          element={authUser ? <SearchedBlog /> : <Login />}
+          path="/login"
+          element={authUser ? <Navigate to="/" /> : <Login />}
         />
+
         <Route
           path="/register"
-          element={authUser ? <Homepage /> : <Register />}
+          element={authUser ? <Navigate to="/" /> : <Register />}
         />
-        <Route path="/login" element={authUser ? <Homepage /> : <Login />} />
-        <Route path="/post/:id" element={authUser ? <Single /> : <Login />} />
+        <Route
+          path="/search/blog"
+          element={authUser ? <SearchedBlog /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/post/:id"
+          element={authUser ? <Single /> : <Navigate to="/login" />}
+        />
         <Route
           path="/write/:id/:qid"
-          element={authUser ? <Write /> : <Login />}
+          element={authUser ? <Write /> : <Navigate to="/login" />}
         />
-        <Route path="/code" element={authUser ? <QuesList /> : <Login />} />
+        <Route
+          path="/code"
+          element={authUser ? <QuesList /> : <Navigate to="/login" />}
+        />
         <Route
           path="/edit-post/:id"
-          element={authUser ? <EditPost /> : <Login />}
+          element={authUser ? <EditPost /> : <Navigate to="/login" />}
         />
-        <Route path="/settings" element={authUser ? <Settings /> : <Login />} />
+        <Route
+          path="/settings"
+          element={authUser ? <Settings /> : <Navigate to="/login" />}
+        />
       </Routes>
     </div>
   );
