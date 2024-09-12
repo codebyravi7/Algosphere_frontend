@@ -4,7 +4,7 @@ import { useAuthContext } from "../context/AuthContext";
 import axios from "axios";
 const useAddFriend = () => {
   const [loading, setLoading] = useState(false);
-  const { authUser } = useAuthContext();
+  const { token } = useAuthContext();
 
   const addFriend = async (id) => {
     setLoading(true);
@@ -12,7 +12,13 @@ const useAddFriend = () => {
       const api = await axios.post(
         `${import.meta.env.VITE_APP_URL}/api/user/addfriend`,
         { id }, // Pass the data directly
-        { withCredentials: true }
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Auth: token,
+          },
+          withCredentials: true,
+        }
       );
       const data = await api.json();
       // console.log(data)
@@ -28,12 +34,17 @@ const useAddFriend = () => {
     try {
       const api = await axios.get(
         `${import.meta.env.VITE_APP_URL}/api/user/arefriend/${id}`,
-        { withCredentials: true }
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Auth: token,
+          },
+          withCredentials: true,
+        }
       );
       const data = api.data;
       return data;
     } catch (error) {
-      console.log("data:");
       toast.error(error.message);
     } finally {
       setLoading(false);

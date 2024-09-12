@@ -1,19 +1,24 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useAuthContext } from "../context/AuthContext";
 const useShowposts = () => {
   const [loading, setLoading] = useState(false);
-
+  const { token } = useAuthContext();
   const showPosts = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("jwt");
-
+      
       const response = await axios.get(
         `${import.meta.env.VITE_APP_URL}/api/post/allposts`,
-        { withCredentials: true }
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Auth: token,
+          },
+          withCredentials: true,
+        }
       );
-      console.log("response: ", response);
 
       const data = response.data; // Axios parses the response automatically
 

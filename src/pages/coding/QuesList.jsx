@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Questionrow from "./Questionrow";
+import { useAuthContext } from "../../context/AuthContext";
 const QuestionList = () => {
   const [questions, setQuestions] = useState([]);
+  const {token} =useAuthContext()
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -10,6 +12,10 @@ const QuestionList = () => {
         const api = await axios.get(
           `${import.meta.env.VITE_APP_URL}/api/question/all`,
           {
+            headers: {
+              "Content-Type": "Application/json",
+              Auth: token,
+            },
             withCredentials: true,
           }
         );

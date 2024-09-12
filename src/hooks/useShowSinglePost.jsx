@@ -1,16 +1,23 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useAuthContext } from "../context/AuthContext";
 
 const useShowSinglePost = () => {
   const [loading, setLoading] = useState(false);
-
+  const { token } = useAuthContext();
   const showPost = async (id) => {
     setLoading(true);
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_APP_URL}/api/post/${id}`,
-        { withCredentials: true }
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Auth: token,
+          },
+          withCredentials: true,
+        }
       );
 
       const data = response.data; // Axios automatically parses JSON response

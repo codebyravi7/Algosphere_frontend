@@ -4,7 +4,7 @@ import { useAuthContext } from "../../context/AuthContext";
 import axios from "axios";
 
 function Questionrow({ question }) {
-  const { authUser } = useAuthContext();
+  const { token } = useAuthContext();
 
   const [isChecked, setIsChecked] = useState(false);
   useEffect(() => {
@@ -25,7 +25,13 @@ function Questionrow({ question }) {
         questionId: question._id,
         isChecked,
       },
-      { withCredentials: true }
+      {
+        headers: {
+          "Content-Type": "Application/json",
+          Auth: token,
+        },
+        withCredentials: true,
+      }
     );
     if (api.data.success) setIsChecked(!isChecked);
   };

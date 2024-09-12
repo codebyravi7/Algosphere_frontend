@@ -1,17 +1,24 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useAuthContext } from "../context/AuthContext";
 
 const useAddPost = () => {
   const [loading, setLoading] = useState(false);
-  
+  const { token } = useAuthContext();
   const addPost = async (formData,id,qid) => {
     try {
       setLoading(true); // Optional: Set loading state before making the request
       const res = await axios.post(
         `${import.meta.env.VITE_APP_URL}/api/post/add/${id}/${qid}`,
         formData,
-        { withCredentials: true }
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Auth: token,
+          },
+          withCredentials: true,
+        }
       );
       console.log("res:", res);
     } catch (error) {

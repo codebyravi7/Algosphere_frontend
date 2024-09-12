@@ -5,14 +5,20 @@ import axios from "axios";
 
 const useLogout = () => {
   const [loading, setLoading] = useState(false);
-  const { setAuthUser } = useAuthContext();
+  const { setAuthUser,token } = useAuthContext();
 
   const logout = async () => {
     setLoading(true);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_APP_URL}/api/auth/logout`,
-        { withCredentials: true }
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Auth: token,
+          },
+          withCredentials: true,
+        }
       );
       const data = response.data; // Axios parses JSON automatically
       if (data.error) {
