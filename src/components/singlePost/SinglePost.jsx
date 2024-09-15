@@ -11,7 +11,7 @@ export default function SinglePost(post) {
   const handleDelete = async () => {
     console.log("delete thte post");
     await axios.post(
-      `${import.meta.env.VITE_APP_URL}/api/post/delete`,
+      `/api/post/delete`,
       {
         postId: post1?._id,
       },
@@ -25,7 +25,7 @@ export default function SinglePost(post) {
     console.log(comment);
     try {
       const api = await axios.post(
-        `${import.meta.env.VITE_APP_URL}/api/post/addcomment`,
+        `/api/post/addcomment`,
         {
           postId: post1?._id,
           content: comment,
@@ -40,6 +40,7 @@ export default function SinglePost(post) {
       console.log(err);
     }
   };
+
   return (
     <div className="singlePost">
       <div className="singlePostWrapper">

@@ -21,8 +21,8 @@ export default function Posts() {
   }, []);
   // console.log(posts)
   return (
-    <div className="posts flex justify-center items-center">
-      {posts.length > 0 ?(
+    <div className="posts flex justify-around items-center">
+      {posts.length > 0 ? (
         posts.map((post) => {
           return (
             <Post
@@ -36,11 +36,12 @@ export default function Posts() {
               comments={post?.comments?.length}
             />
           );
-        })) : (
-          <div className="nopost">
-            <h1 className="text-3xl">No posts found</h1>
-          </div>
-        )}
+        })
+      ) : (
+        <div className="nopost">
+          <h1 className="text-3xl">No posts found</h1>
+        </div>
+      )}
     </div>
   );
 }

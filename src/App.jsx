@@ -10,6 +10,7 @@ import Write from "./pages/write/Write";
 import QuesList from "./pages/coding/QuesList";
 import EditPost from "./pages/edit/Editpost";
 import SearchedBlog from "./pages/searchPage/Search";
+import Footer from './components/Footer'
 
 function App() {
   const { authUser } = useAuthContext();
@@ -56,6 +57,7 @@ function App() {
           element={authUser ? <Settings /> : <Navigate to="/login" />}
         />
       </Routes>
+      {authUser && <Footer />}
     </div>
   );
 }
