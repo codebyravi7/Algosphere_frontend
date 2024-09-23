@@ -21,7 +21,7 @@ const useLikepost = () => {
 
       // `response.data` contains the parsed JSON response
       const data = response.data;
-      console.log(data); // Handle the response data as needed
+      console.log("data: ",data); // Handle the response data as needed
     } catch (error) {
       console.error(error); // Handle errors as needed
     }

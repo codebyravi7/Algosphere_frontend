@@ -4,8 +4,16 @@ import { useAuthContext } from "../../context/AuthContext";
 import useAddFriend from "../../hooks/useAddFriend";
 import useLikePost from "../../hooks/useLikePost";
 import loadingimg from "../../../public/loading.png";
-
-export default function Post({ title, description, image, id, author, likes }) {
+import axios from "axios";
+export default function Post({
+  title,
+  description,
+  image,
+  id,
+  author,
+  likes,
+  comments,
+}) {
   const { authUser } = useAuthContext();
   const { loading, addFriend, areFriend } = useAddFriend();
   const { addLike } = useLikePost();
@@ -22,14 +30,16 @@ export default function Post({ title, description, image, id, author, likes }) {
     };
     fetchData();
   }, []);
-  const isLikedDB = () => {
-    if (likes.includes(authUser._id)) {
+  const isLikedDB = async () => {
+    const likesDB = await likes.includes(authUser._id);
+    // console.log(title);
+    // console.log(likesDB);
+    if (likesDB) {
       setIsLiked(true);
     } else {
       setIsLiked(false);
     }
   };
-  // setIsFriend(temp)
 
   const handleFriend = async () => {
     await addFriend(author);
@@ -49,6 +59,17 @@ export default function Post({ title, description, image, id, author, likes }) {
       ? text.substring(0, maxLength) + "..."
       : text;
   };
+  const handleDelete = async () => {
+    console.log("delete thte post:", id);
+    const api = await axios.post(
+      `${import.meta.env.VITE_APP_URL}/api/post/delete`,
+      {
+        postId: id,
+      },
+      { withCredentials: true }
+    );
+    console.log(api?.data);
+  };
   return (
     <div className="relative flex flex-col my-6  h-[600px] shadow-lg shadow-black border border-slate-200 rounded-lg w-96 ">
       <div className="relative h-80 flex justify-center p-2 m-1 bg-gray-300 overflow-hidden text-white rounded-md">
@@ -59,11 +80,11 @@ export default function Post({ title, description, image, id, author, likes }) {
       <div className="p-4">
         <div className="px-2">
           <div className="w-full flex justify-between">
-            <div>
-              <span className="mx-2" onClick={handleLike}>
+            <div className="">
+              <span className="mr-1 " onClick={handleLike}>
                 {isLiked ? (
                   <i
-                    className="fa-solid fa-heart"
+                    className="fa-solid fa-heart cursor-pointer"
                     style={{ color: "#fd4949" }}
                   ></i>
                 ) : (
@@ -71,15 +92,16 @@ export default function Post({ title, description, image, id, author, likes }) {
                 )}
               </span>
               <span>{likecount}</span>
-              <Link to={`/post/${id}`} className="link">
-                <span className="mx-2">
+              <span className="mx-2">
+                <Link to={`/post/${id}`} className="link">
                   <i className="fa-regular fa-comment"></i>
-                </span>
-              </Link>
+                  <span className="ml-1">{comments}</span>
+                </Link>
+              </span>
             </div>
             <div className="mr-3">
               {author === authUser._id ? (
-                <span className="postCat">
+                <span className="">
                   <button
                     className=""
                     onClick={() =>
@@ -92,7 +114,14 @@ export default function Post({ title, description, image, id, author, likes }) {
                       })
                     }
                   >
-                    Edit
+                    <span className="material-symbols-outlined text-yellow-400 mr-2">
+                      edit_square
+                    </span>
+                  </button>
+                  <button onClick={handleDelete}>
+                    <span className="material-symbols-outlined text-red-500">
+                      delete
+                    </span>
                   </button>
                 </span>
               ) : (

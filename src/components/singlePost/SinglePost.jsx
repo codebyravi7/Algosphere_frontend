@@ -8,10 +8,15 @@ export default function SinglePost(post) {
   const post1 = post?.post;
   const { authUser } = useAuthContext();
   const navigate = useNavigate();
+
+  // const [comments, setComments] = useState([]);
+  const comments = post1?.comments;
+  console.log(comments);
+
   const handleDelete = async () => {
-    console.log("delete thte post");
+    // console.log("delete thte post");
     await axios.post(
-      `/api/post/delete`,
+      `${import.meta.env.VITE_APP_URL}/api/post/delete`,
       {
         postId: post1?._id,
       },
@@ -25,7 +30,7 @@ export default function SinglePost(post) {
     console.log(comment);
     try {
       const api = await axios.post(
-        `/api/post/addcomment`,
+        `${import.meta.env.VITE_APP_URL}/api/post/addcomment`,
         {
           postId: post1?._id,
           content: comment,
@@ -35,6 +40,7 @@ export default function SinglePost(post) {
         }
       );
       console.log(api?.data);
+      comments.unshift({ _id: Date.now(), user: authUser, content: comment });
       setComment("");
     } catch (err) {
       console.log(err);
@@ -110,18 +116,18 @@ export default function SinglePost(post) {
         </div>
 
         <div className="comments border-2">
-          {post1?.comments?.length > 0 ? (
-            post1?.comments?.map((comment) => {
+          {comments?.length > 0 ? (
+            comments?.map((comment) => {
               return (
                 <div
                   key={comment._id}
                   className="comment-box border-2 border-gray-600 shadow-lg p-2 mx-1 my-2 rounded-md"
                 >
                   <p className="comment-author text-lg font-bold">
-                    {comment.user.fullName}
+                    {comment?.user?.fullName}
                   </p>
                   <p className="comment text-lg">{comment.content}</p>
-                  {console.log(comment)}
+                  {/* {console.log(comment)} */}
                 </div>
               );
             })
