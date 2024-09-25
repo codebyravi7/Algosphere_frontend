@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import Topbar from "./components/topbar/Topbar";
 import Homepage from "./pages/homepage/Homepage";
 import Login from "./pages/login/Login";
@@ -10,11 +10,22 @@ import Write from "./pages/write/Write";
 import QuesList from "./pages/coding/QuesList";
 import EditPost from "./pages/edit/Editpost";
 import SearchedBlog from "./pages/searchPage/Search";
-import Footer from './components/Footer'
+import Footer from "./components/Footer";
+import Page404 from "./pages/Page404";
+import Error500 from "./pages/Error500"; // Your 500 error page
+
+import { useEffect } from "react";
+import { setupInterceptors } from "./utils/axiosInstance";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
   const { authUser } = useAuthContext();
-  // const authUser = false;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setupInterceptors(navigate);
+  }, [navigate]);
+
   return (
     <div className="">
       <Topbar />
@@ -27,7 +38,6 @@ function App() {
           path="/login"
           element={authUser ? <Navigate to="/" /> : <Login />}
         />
-
         <Route
           path="/register"
           element={authUser ? <Navigate to="/" /> : <Register />}
@@ -53,11 +63,19 @@ function App() {
           element={authUser ? <EditPost /> : <Navigate to="/login" />}
         />
         <Route
+          path="/:id/profile"
+          element={authUser ? <UserProfile /> : <Navigate to="/login" />}
+        />
+
+        <Route
           path="/settings"
           element={authUser ? <Settings /> : <Navigate to="/login" />}
         />
+        {/* Error Pages */}
+        <Route path="*" element={<Page404 />} />
+        <Route path="/error500" element={<Error500 />} /> {/* 500 error page */}
       </Routes>
-      {authUser && <Footer />}
+      <Footer />
     </div>
   );
 }

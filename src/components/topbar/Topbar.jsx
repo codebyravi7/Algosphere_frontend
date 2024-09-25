@@ -16,9 +16,10 @@ import {
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import logo from "../../../public/logo.png";
 const navigation = [
-  { name: "Dashboard", href: "/", current: true },
+  { name: "Dashboard", href: "/", current: false },
   { name: "Write", href: "/write/post/1", current: false },
   { name: "Mylist", href: "/code", current: false },
+  { name: "Coding", href: "/codingprofiles", current: false },
 ];
 
 function classNames(...classes) {
@@ -143,7 +144,7 @@ export default function Topbar() {
                       <span className="sr-only">Open user menu</span>
                       <img
                         alt=""
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        src={authUser?.profilePic}
                         className="h-8 w-8 rounded-full"
                       />
                     </MenuButton>
@@ -154,7 +155,7 @@ export default function Topbar() {
                   >
                     <MenuItem>
                       <Link
-                        to="/profile"
+                        to={`/${authUser._id}/profile`}
                         className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
                       >
                         Your Profile

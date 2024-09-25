@@ -1,4 +1,3 @@
-import "./register.css";
 import { Link } from "react-router-dom";
 import GenderCheckbox from "./GenderCheckbox";
 import { useState } from "react";

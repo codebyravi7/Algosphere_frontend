@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useAuthContext } from "../../context/AuthContext";
 import useAddFriend from "../../hooks/useAddFriend";
 import useLikePost from "../../hooks/useLikePost";
-import loadingimg from "../../../public/loading.png";
 import axios from "axios";
 export default function Post({
   title,

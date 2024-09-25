@@ -1,12 +1,11 @@
 import useLogin from "../../hooks/useLogin";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import "./login.css";
 
 export default function Login() {
   const [inputs, setInputs] = useState({
-    username: "",
-    password: "",
+    username: "tamannakapati",
+    password: "123456",
   });
 
   const { loading, login } = useLogin();
@@ -20,19 +19,20 @@ export default function Login() {
         <div className="max-md:order-1 flex flex-col justify-center space-y-16 max-md:mt-16 min-h-full bg-gradient-to-r from-gray-900 to-gray-700 lg:px-8 px-4 py-4">
           <div>
             <h4 className="text-white text-lg font-semibold">
-              Create Your Account
+              Login to Your Account
             </h4>
             <p className="text-[13px] text-gray-300 mt-3 leading-relaxed">
-              Welcome to our Algosphere! Get started by creating your account.
+              Welcome to our Portfolio Manager! Showcase yourself in a way never
+              been easier.
             </p>
           </div>
           <div>
             <h4 className="text-white text-lg font-semibold">
-              Simple & Secure Registration
+              Demo Account Enabled, Just Hit Enter!
             </h4>
             <p className="text-[13px] text-gray-300 mt-3 leading-relaxed">
-              Our registration process is designed to be straightforward and
-              secure. We prioritize your privacy and data security.
+              Streamline your coding profiles, track progress, all in one
+              place!
             </p>
           </div>
         </div>
