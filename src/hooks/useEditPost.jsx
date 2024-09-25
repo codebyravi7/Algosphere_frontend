@@ -14,7 +14,7 @@ const useEditPost = () => {
         formData,
         {
           headers: {
-            "Content-Type": "Application/json",
+            "Content-Type": "multipart/form-data/json",
             Auth: token,
           },
           withCredentials: true,

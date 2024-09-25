@@ -13,7 +13,7 @@ export default function Post({
   likes,
   comments,
 }) {
-  const { authUser } = useAuthContext();
+  const { authUser,token } = useAuthContext();
   const { loading, addFriend, areFriend } = useAddFriend();
   const { addLike } = useLikePost();
   const navigate = useNavigate();
@@ -59,13 +59,19 @@ export default function Post({
       : text;
   };
   const handleDelete = async () => {
-    console.log("delete thte post:", id);
+    // console.log("delete the post:", id);
     const api = await axios.post(
       `${import.meta.env.VITE_APP_URL}/api/post/delete`,
       {
         postId: id,
       },
-      { withCredentials: true }
+      {
+        headers: {
+          "Content-Type": "Application/json",
+          Auth: token,
+        },
+        withCredentials: true,
+      }
     );
     console.log(api?.data);
   };

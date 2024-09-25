@@ -45,6 +45,10 @@ export default function Topbar() {
           keyword: inputValue,
         },
         {
+          headers: {
+            "Content-Type": "Application/json",
+            Auth: token,
+          },
           withCredentials: true,
         }
       );

@@ -14,7 +14,7 @@ const useAddPost = () => {
         formData,
         {
           headers: {
-            "Content-Type": "Application/json",
+            "Content-Type": "multipart/form-data",
             Auth: token,
           },
           withCredentials: true,

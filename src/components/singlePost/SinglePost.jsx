@@ -6,7 +6,7 @@ import { useState } from "react";
 
 export default function SinglePost(post) {
   const post1 = post?.post;
-  const { authUser } = useAuthContext();
+  const { authUser,token } = useAuthContext();
   const navigate = useNavigate();
 
   // const [comments, setComments] = useState([]);
@@ -20,7 +20,13 @@ export default function SinglePost(post) {
       {
         postId: post1?._id,
       },
-      { withCredentials: true }
+      {
+        headers: {
+          "Content-Type": "Application/json",
+          Auth: token,
+        },
+        withCredentials: true,
+      }
     );
     navigate("/");
   };
@@ -36,6 +42,10 @@ export default function SinglePost(post) {
           content: comment,
         },
         {
+          headers: {
+            "Content-Type": "Application/json",
+            Auth: token,
+          },
           withCredentials: true,
         }
       );

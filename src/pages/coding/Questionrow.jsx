@@ -11,7 +11,13 @@ function Questionrow({ question }) {
     const fetchData = async () => {
       const res = await axios.get(
         `${import.meta.env.VITE_APP_URL}/api/question/${question._id}`,
-        { withCredentials: true }
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Auth: token,
+          },
+          withCredentials: true,
+        }
       );
       setIsChecked(res.data);
     };
