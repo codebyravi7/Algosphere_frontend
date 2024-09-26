@@ -1,39 +1,48 @@
 import { Link, useNavigate } from "react-router-dom";
-import "./singlePost.css";
 import { useAuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { useState } from "react";
-
+import Button from "../Smallcomps/Button";
 export default function SinglePost(post) {
   const post1 = post?.post;
-  const { authUser,token } = useAuthContext();
+  const { authUser, token } = useAuthContext();
   const navigate = useNavigate();
+  const [comment, setComment] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  // const [comments, setComments] = useState([]);
-  const comments = post1?.comments;
-  console.log(comments);
+  const comments = post1?.comments || [];
 
   const handleDelete = async () => {
-    // console.log("delete thte post");
-    await axios.post(
-      `${import.meta.env.VITE_APP_URL}/api/post/delete`,
-      {
-        postId: post1?._id,
-      },
-      {
-        headers: {
-          "Content-Type": "Application/json",
-          Auth: token,
+    setLoading(true);
+    setError("");
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_APP_URL}/api/post/delete`,
+        {
+          postId: post1?._id,
         },
-        withCredentials: true,
-      }
-    );
-    navigate("/");
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Auth: token,
+          },
+          withCredentials: true,
+        }
+      );
+      navigate("/");
+    } catch (err) {
+      setError("Failed to delete post. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
-  const [comment, setComment] = useState("");
+
   const handleAddComment = async (e) => {
     e.preventDefault();
-    console.log(comment);
+    if (!comment.trim()) return; // prevent empty comments
+    setLoading(true);
+    setError("");
     try {
       const api = await axios.post(
         `${import.meta.env.VITE_APP_URL}/api/post/addcomment`,
@@ -49,105 +58,127 @@ export default function SinglePost(post) {
           withCredentials: true,
         }
       );
-      console.log(api?.data);
       comments.unshift({ _id: Date.now(), user: authUser, content: comment });
       setComment("");
     } catch (err) {
-      console.log(err);
+      setError("Failed to add comment. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="singlePost">
-      <div className="singlePostWrapper">
-        <div className="relative overflow-hidden rounded-xl bg-red-500 border-2 border-green-400">
-          <img
-            className="singlePostImg object-cover w-full h-full"
-            src={post1?.image?.url}
-            alt=""
-          />
-        </div>
-        <h1 className="singlePostTitle">{post1?.title}</h1>
-        {post1?.user?._id === authUser._id && (
-          <div className="singlePostEdit">
-            <button
-              onClick={() =>
-                navigate(`/edit-post/${post1?._id}`, {
-                  state: {
-                    prevtitle: post1?.title,
-                    prevdescription: post1?.description,
-                    previmage: post1?.image,
-                  },
-                })
-              }
-            >
-              <i className="singlePostIcon far fa-edit"> </i>
-            </button>
+    <div className="flex flex-col gap-6 flex-9 p-5">
+      <h1 className="text-center text-3xl font-bold font-lora">
+        {post1?.title}
+      </h1>
+      <div className="">
+        <img
+          className="h-96 w-auto m-auto border-2 border-gray-600 rounded-xl"
+          src={post1?.image?.url}
+          alt={post1?.title}
+        />
+      </div>
 
-            <button onClick={handleDelete}>
-              <i className="singlePostIcon far fa-trash-alt"> </i>
-            </button>
-          </div>
-        )}
-        <div className="singlePostInfo">
+      <div className="footContent flex justify-between">
+        <div className="flex justify-between items-center text-base text-gray-600 font-varela">
           <span>
-            Author:
-            <b className="singlePostAuthor">
-              <Link className="link" to="/posts?username=Safak">
+            Author:{" "}
+            <b>
+              <Link
+                className="text-blue-600 hover:text-blue-800"
+                to={`/posts?username=${post1?.user?.fullName}`}
+              >
                 {post1?.user?.fullName}
               </Link>
             </b>
           </span>
-          <span>1 day ago</span>
+          <span className="ml-2">1 day ago</span>
         </div>
-        <p className="singlePostDesc">{post1?.description}</p>
+        <div className="buttons">
+          {post1?.user?._id === authUser._id && (
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() =>
+                  navigate(`/edit-post/${post1?._id}`, {
+                    state: {
+                      prevtitle: post1?.title,
+                      prevdescription: post1?.description,
+                      previmage: post1?.image,
+                    },
+                  })
+                }
+                className="text-teal-600 hover:text-teal-800 transition-colors duration-300"
+              >
+                ✏️ Edit
+              </button>
+              <button
+                onClick={handleDelete}
+                disabled={loading}
+                className="text-red-600 hover:text-red-800 transition-colors duration-300"
+              >
+                🗑️ Delete
+              </button>
+            </div>
+          )}
+        </div>
       </div>
-      <div className="comment-box ">
-        <p className="comment text-xl mx-2">Comments ☰</p>
-        <div className="p-4 bg-white rounded-lg shadow-lg">
+
+      <p className="text-gray-700 leading-7">{post1?.description}</p>
+
+      {/* Comment section */}
+      <div className="comment-box">
+        <p className="text-xl font-semibold">Comments ☰</p>
+
+        {/* Add Comment Form */}
+        <div className="bg-white p-4 rounded-lg shadow-lg">
           <form onSubmit={handleAddComment}>
             <textarea
-              className="comment-box-textarea w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition duration-300"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition duration-300"
               type="text"
-              placeholder="Add a comment"
-              rows="4"
+              placeholder="Add a comment..."
+              rows="3"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-            ></textarea>
+            />
             <div className="flex justify-end mt-3">
               <button
-                className="comment flex items-center bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
                 type="submit"
+                disabled={loading}
+                className={`flex items-center bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300 ${
+                  loading ? "cursor-not-allowed opacity-50" : ""
+                }`}
               >
-                Add Comment <i className="fa-solid fa-plus ml-2"></i>
+                {loading ? "Submitting..." : "Add Comment"}
               </button>
             </div>
           </form>
+          {error && <p className="text-red-500 mt-2">{error}</p>}
         </div>
 
-        <div className="comments border-2">
-          {comments?.length > 0 ? (
-            comments?.map((comment) => {
-              return (
-                <div
-                  key={comment._id}
-                  className="comment-box border-2 border-gray-600 shadow-lg p-2 mx-1 my-2 rounded-md"
-                >
-                  <p className="comment-author text-lg font-bold">
-                    {comment?.user?.fullName}
-                  </p>
-                  <p className="comment text-lg">{comment.content}</p>
-                  {/* {console.log(comment)} */}
-                </div>
-              );
-            })
+        {/* Comments List */}
+        <div className="mt-5">
+          {comments.length > 0 ? (
+            comments.map((comment) => (
+              <div
+                key={comment._id}
+                className="border border-gray-300 rounded-lg p-3 my-2 bg-gray-50 shadow-md"
+              >
+                <p className="font-semibold text-gray-800">
+                  {comment?.user?.fullName}
+                </p>
+                <p className="text-gray-600">{comment.content}</p>
+              </div>
+            ))
           ) : (
-            <>
-              <p> No Comments Yet!!</p>
-              <p> No Comments Yet!!</p>
-            </>
+            <p className="text-gray-500">
+              No comments yet. Be the first to comment!
+            </p>
           )}
         </div>
+      </div>
+      <div className="button text-center">
+        <Button />
       </div>
     </div>
   );

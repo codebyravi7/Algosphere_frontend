@@ -23,12 +23,8 @@ export default function Single() {
   }, []);
 
   return (
-    <div className="home">
-      <div className="flex h-screen ">
-        <div className="posts flex-grow overflow-y-auto hide-scrollbar">
-          <SinglePost post={post1} />
-        </div>
-      </div>
+    <div className="">
+      <SinglePost post={post1} />
     </div>
   );
 }
