@@ -30,7 +30,7 @@ function App() {
   useEffect(() => {
     setupInterceptors(navigate);
   }, [navigate]);
-
+  console.log("Authuser is identified!!");
   return (
     <div className="">
       <Topbar />
