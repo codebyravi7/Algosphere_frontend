@@ -31,8 +31,8 @@ const QuestionList = () => {
   }, [token]); // Add token as a dependency
 
   return (
-    <div className="mx-auto p-6 text-xl">
-      <h1 className="text-3xl font-bold mb-4 text-center text-gray-800">
+    <div className="mx-auto pt-20 p-6 text-xl dark:bg-gray-700">
+      <h1 className="text-3xl font-bold mb-4 text-center">
         Questions List
       </h1>
       <div className="space-y-4">

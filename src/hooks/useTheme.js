@@ -10,12 +10,7 @@ const useTheme = () => {
 
   useEffect(() => {
     // Remove all possible theme classes
-    document.documentElement.classList.remove(
-      MODE.light,
-      MODE.dark,
-      MODE.neon,
-      MODE.sepia
-    );
+    document.documentElement.classList.remove(MODE.light, MODE.dark);
 
     // Add the current theme class
     document.documentElement.classList.add(theme);
@@ -24,9 +19,8 @@ const useTheme = () => {
     localStorage.setItem(THEME_KEY, theme);
   }, [theme]);
 
-
   const setThemeMode = (newTheme) => {
-    console.log("set theme node in use theme-> ::",newTheme)
+    console.log("set theme node in use theme-> ::", newTheme);
     setTheme(newTheme);
   };
 

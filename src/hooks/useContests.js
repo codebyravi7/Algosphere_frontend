@@ -18,7 +18,6 @@ export const DEFAULT_PLATFORMS = [
 const useContests = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  console.log(localStorage.getItem(CONTESTS_KEY));
   const [contests, setContests] = useState(
     JSON.parse(localStorage.getItem(CONTESTS_KEY)) || []
   );
@@ -33,7 +32,6 @@ const useContests = () => {
           `${import.meta.env.VITE_APP_URL}/api/contests/upcoming`
         );
         const data = response.data;
-        console.log("data", data);
 
         setContests(data?.upcoming_contests);
         localStorage.setItem(

@@ -1,26 +1,7 @@
-import { useState, useEffect } from "react";
-import useShowposts from "../../hooks/useShowposts";
-import Post from "../post/Post";
 import "./posts.css";
 import Showposts from "../showposts/Showposts";
 
-export default function Posts() {
-  //useHook se import karenge
-  const { loading, showPosts } = useShowposts();
-  const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const res = await showPosts();
-        setPosts(res || []);
-      } catch (error) {
-        console.error("Failed to fetch posts:", error);
-      }
-    };
-
-    fetchPosts();
-  }, []);
-  // console.log(posts)
+export default function Posts({posts}) {
   return <Showposts posts={posts} />;
 }
 {

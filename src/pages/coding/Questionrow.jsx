@@ -49,7 +49,11 @@ function Questionrow({ question }) {
         isChecked
           ? "bg-green-100 text-green-800 border-green-400"
           : "bg-white text-gray-800 border-gray-300"
-      }`}
+      } ${
+        isChecked
+          ? "dark:bg-green-100 dark:text-green-800 border-green-400"
+          : "dark:bg-gray-500 dark:text-white border-gray-300"
+      } `}
     >
       <div className="flex items-center">
         <input

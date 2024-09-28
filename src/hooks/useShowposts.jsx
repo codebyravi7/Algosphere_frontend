@@ -8,7 +8,6 @@ const useShowposts = () => {
   const showPosts = async () => {
     setLoading(true);
     try {
-      
       const response = await axios.get(
         `${import.meta.env.VITE_APP_URL}/api/post/allposts`,
         {

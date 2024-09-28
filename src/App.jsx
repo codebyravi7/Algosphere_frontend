@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import Topbar from "./components/topbar/Topbar.jsx";
 import Homepage from "./pages/homepage/Homepage";
 import Login from "./pages/login/Login";
@@ -15,30 +15,42 @@ import Page404 from "./pages/Page404";
 import Error500 from "./pages/Error500"; // Your 500 error page
 import ContestList from "./components/ContestList";
 
-import { useEffect } from "react";
-import { setupInterceptors } from "./utils/axiosInstance";
+import { useEffect, useState } from "react";
 import UserProfile from "./pages/UserProfile";
 import useContests from "./hooks/useContests.js";
 import useTheme from "./hooks/useTheme.js";
+import useShowposts from "./hooks/useShowposts";
+
 // axios.defaults.baseURL = "http://localhost:5000/api";
 
 function App() {
   const { authUser } = useAuthContext();
-  const navigate = useNavigate();
   const { loading, error, contests, platforms, setPlatforms } = useContests();
-  const { theme, setThemeMode } = useTheme();
+  const { showPosts } = useShowposts();
+  const [posts, setPosts] = useState([]);
   useEffect(() => {
-    setupInterceptors(navigate);
-  }, [navigate]);
-  console.log("Authuser is identified!!");
+    const fetchPosts = async () => {
+      const res = await showPosts();
+      setPosts(res || []);
+    };
+    fetchPosts();
+  }, []);
+  const { theme, setThemeMode } = useTheme();
+  // useEffect(() => {
+  //   setupInterceptors(navigate);
+  // }, [navigate]);
+
   return (
     <div className="">
-      <Topbar />
+      {console.log("theme in the frontend:: ", theme)}
+      <Topbar theme={theme} setThemeMode={setThemeMode} />
 
       <Routes>
         <Route
           path="/"
-          element={authUser ? <Homepage /> : <Navigate to="/login" />}
+          element={
+            authUser ? <Homepage posts={posts} /> : <Navigate to="/login" />
+          }
         />
         <Route
           path="/login"

@@ -4,6 +4,7 @@ import { useAuthContext } from "../../context/AuthContext";
 import useAddFriend from "../../hooks/useAddFriend";
 import useLikePost from "../../hooks/useLikePost";
 import axios from "axios";
+
 export default function Post({
   title,
   description,
@@ -13,58 +14,45 @@ export default function Post({
   likes,
   comments,
 }) {
-  const { authUser,token } = useAuthContext();
+  const { authUser, token } = useAuthContext();
   const { loading, addFriend, areFriend } = useAddFriend();
   const { addLike } = useLikePost();
   const navigate = useNavigate();
   const [isFriend, setIsFriend] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
-  const [likecount, setLikecount] = useState(likes.length);
+  const [likeCount, setLikeCount] = useState(likes.length);
 
   useEffect(() => {
     const fetchData = async () => {
-      let res = await areFriend(author);
+      const res = await areFriend(author);
       setIsFriend(res);
       isLikedDB();
     };
     fetchData();
   }, []);
-  const isLikedDB = async () => {
-    const likesDB = await likes.includes(authUser._id);
-    // console.log(title);
-    // console.log(likesDB);
-    if (likesDB) {
-      setIsLiked(true);
-    } else {
-      setIsLiked(false);
-    }
+
+  const isLikedDB = () => {
+    setIsLiked(likes.includes(authUser._id));
   };
 
   const handleFriend = async () => {
     await addFriend(author);
-    setIsFriend(!isFriend);
+    setIsFriend((prev) => !prev);
   };
+
   const handleLike = async () => {
     await addLike(id);
-    if (isLiked) {
-      setLikecount(likecount - 1);
-    } else {
-      setLikecount(likecount + 1);
-    }
-    setIsLiked(!isLiked);
+    setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
+    setIsLiked((prev) => !prev);
   };
-  const truncateText = (text, maxLength) => {
-    return text.length > maxLength
-      ? text.substring(0, maxLength) + "..."
-      : text;
-  };
+
+  const truncateText = (text, maxLength) =>
+    text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+
   const handleDelete = async () => {
-    // console.log("delete the post:", id);
-    const api = await axios.post(
+    await axios.post(
       `${import.meta.env.VITE_APP_URL}/api/post/delete`,
-      {
-        postId: id,
-      },
+      { postId: id },
       {
         headers: {
           "Content-Type": "Application/json",
@@ -73,42 +61,42 @@ export default function Post({
         withCredentials: true,
       }
     );
-    console.log(api?.data);
   };
+
   return (
-    <div className="relative flex flex-col my-6  h-[600px] shadow-lg shadow-black border border-slate-200 rounded-lg w-96 ">
+    <div className="relative flex flex-col my-6 h-[600px] shadow-lg border border-slate-200 rounded-lg w-96 bg-white dark:bg-gray-800 dark:border-gray-700 transition-all duration-300 hover:shadow-xl">
       <div className="relative h-80 flex justify-center p-2 m-1 bg-gray-300 overflow-hidden text-white rounded-md">
-        <Link to={`/post/${id}`} className="">
-          <img src={image?.url} alt="card-image" className="rounded-xl" />
+        <Link to={`/post/${id}`}>
+          <img
+            src={image?.url}
+            alt="card-image"
+            className="rounded-xl object-cover"
+          />
         </Link>
       </div>
       <div className="p-4">
         <div className="px-2">
-          <div className="w-full flex justify-between">
-            <div className="">
-              <span className="mr-1 " onClick={handleLike}>
+          <div className="w-full flex justify-between items-center">
+            <div className="flex items-center">
+              <span className="mr-1 cursor-pointer" onClick={handleLike}>
                 {isLiked ? (
-                  <i
-                    className="fa-solid fa-heart cursor-pointer"
-                    style={{ color: "#fd4949" }}
-                  ></i>
+                  <i className="fa-solid fa-heart text-red-500"></i>
                 ) : (
                   <i className="fa-regular fa-heart"></i>
                 )}
               </span>
-              <span>{likecount}</span>
+              <span className="text-sm">{likeCount}</span>
               <span className="mx-2">
-                <Link to={`/post/${id}`} className="link">
+                <Link to={`/post/${id}`} className="link flex items-center">
                   <i className="fa-regular fa-comment"></i>
                   <span className="ml-1">{comments}</span>
                 </Link>
               </span>
             </div>
-            <div className="mr-3">
+            <div className="flex items-center">
               {author === authUser._id ? (
-                <span className="">
+                <span className="flex space-x-2">
                   <button
-                    className=""
                     onClick={() =>
                       navigate(`/edit-post/${id}`, {
                         state: {
@@ -118,53 +106,53 @@ export default function Post({
                         },
                       })
                     }
+                    className="text-yellow-400 hover:text-yellow-500 transition-colors"
                   >
-                    <span className="material-symbols-outlined text-yellow-400 mr-2">
+                    <span className="material-symbols-outlined">
                       edit_square
                     </span>
                   </button>
-                  <button onClick={handleDelete}>
-                    <span className="material-symbols-outlined text-red-500">
-                      delete
-                    </span>
+                  <button
+                    onClick={handleDelete}
+                    className="text-red-500 hover:text-red-600 transition-colors"
+                  >
+                    <span className="material-symbols-outlined">delete</span>
                   </button>
                 </span>
               ) : (
-                <span className="postCat">
-                  <button className="link" onClick={handleFriend}>
-                    {!isFriend ? (
-                      <span className="text-blue-500 material-symbols-outlined">
-                        person_add
-                      </span>
-                    ) : (
-                      <span className="text-red-500 material-symbols-outlined">
-                        person_remove
-                      </span>
-                    )}
-                  </button>
-                </span>
+                <button className="link" onClick={handleFriend}>
+                  {isFriend ? (
+                    <span className="text-red-500 material-symbols-outlined">
+                      person_remove
+                    </span>
+                  ) : (
+                    <span className="text-blue-500 material-symbols-outlined">
+                      person_add
+                    </span>
+                  )}
+                </button>
               )}
             </div>
           </div>
-          <span className="postTitle">
-            <Link to={`/post/${id}`} className="link">
+          <span className="postTitle font-semibold">
+            <Link to={`/post/${id}`} className="link hover:underline">
               {truncateText(title, 70)}
             </Link>
           </span>
-          <hr />
-          <span className="postDate">1 hour ago</span>
+          <hr className="my-2 border-slate-300 dark:border-gray-600" />
+          <span className="postDate text-sm text-gray-500">1 hour ago</span>
         </div>
-        <p className="text-slate-600 leading-normal font-light">
+        <p className="text-slate-600 leading-normal font-light dark:text-gray-300">
           {truncateText(description, 150)}
         </p>
       </div>
-      <div className="px-4 pb-4 pt-0 mt-2 absolute bottom-0">
-        <button
-          className="rounded-md bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button"
+      <div className="px-4 pb-4 pt-0 mt-2 absolute bottom-0 w-full">
+        <Link
+          to={`/post/${id}`}
+          className="block rounded-md bg-gray-700 dark:bg-gray-50 dark:text-black font-serif text-xl py-2 text-center"
         >
-          <Link to={`/post/${id}`}>Read More</Link>
-        </button>
+          Read More
+        </Link>
       </div>
     </div>
   );
