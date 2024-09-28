@@ -40,7 +40,7 @@ const ContestList = ({ loading, error, contests }) => {
   );
 
   return (
-    <div className="flex flex-col p-4 gap-4 w-full">
+    <div className="pt-20 flex flex-col p-4 gap-4 w-full min-h-screen">
       <div className="flex flex-col justify-between items-center mb-4 gap-4">
         {loading && (
           <span className="flex flex-row items-center justify-center font-semibold text-sm text-gray-800 dark:text-gray-200 gap-2 mb-2">

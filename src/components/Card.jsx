@@ -1,7 +1,4 @@
 import { useEffect, useState } from "react";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
-import AlarmOffIcon from "@mui/icons-material/AlarmOff";
 import { toast } from "react-toastify";
 
 const STATUS = {
@@ -25,42 +22,41 @@ const Card = ({ contest }) => {
   const logoUrl = platformLogos[contest?.site] || "images/default-logo.png";
 
   const [curTime, setCurTime] = useState(new Date());
-  const [alarmSet, setAlarmSet] = useState(false);
 
   let currentStatus = STATUS.yetToStart;
   if (curTime > endDate) currentStatus = STATUS.ended;
   else if (curTime >= startDate && curTime <= endDate)
     currentStatus = STATUS.ongoing;
 
-  useEffect(() => {
-    const interval = setInterval(() => setCurTime(new Date()), 1000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => setCurTime(new Date()), 1000);
 
-    // Check if alarm is already set for the contest
-    chrome?.alarms?.get("contest_" + contest?.title, (alarm) => {
-      if (alarm) setAlarmSet(true);
-    });
+  //   // Check if alarm is already set for the contest
+  //   chrome?.alarms?.get("contest_" + contest?.title, (alarm) => {
+  //     if (alarm) setAlarmSet(true);
+  //   });
 
-    return () => clearInterval(interval);
-  }, [contest?.title]);
+  //   return () => clearInterval(interval);
+  // }, [contest?.title]);
 
-  const handleToggleAlarm = () => {
-    const alarmTime = new Date(
-      new Date(contest?.startTime).getTime() - 10 * 60 * 1000
-    ); // 10 minutes before contest start time
+  // const handleToggleAlarm = () => {
+  //   const alarmTime = new Date(
+  //     new Date(contest?.startTime).getTime() - 10 * 60 * 1000
+  //   ); // 10 minutes before contest start time
 
-    if (alarmSet) {
-      chrome.alarms.clear("contest_" + contest?.title, () => {
-        toast("Alarm removed for the contest!");
-        setAlarmSet(false);
-      });
-    } else {
-      chrome.alarms.create("contest_" + contest?.title, {
-        when: alarmTime.getTime(),
-      });
-      toast("Alarm set for 10 minutes before the contest!");
-      setAlarmSet(true);
-    }
-  };
+  //   if (alarmSet) {
+  //     chrome.alarms.clear("contest_" + contest?.title, () => {
+  //       toast("Alarm removed for the contest!");
+  //       setAlarmSet(false);
+  //     });
+  //   } else {
+  //     chrome.alarms.create("contest_" + contest?.title, {
+  //       when: alarmTime.getTime(),
+  //     });
+  //     toast("Alarm set for 10 minutes before the contest!");
+  //     setAlarmSet(true);
+  //   }
+  // };
 
   return (
     <a
@@ -89,10 +85,7 @@ const Card = ({ contest }) => {
         {currentStatus === STATUS.yetToStart && (
           <div className="mb-2 flex items-center justify-between gap-1">
             <span className="flex gap-1 items-center">
-              <FiberManualRecordIcon
-                className="text-gray-950"
-                fontSize="small"
-              />
+              <i class="fa-solid fa-circle-dot"></i>
               <p className="mb-1 text-sm font-normal text-gray-600 dark:text-gray-200">
                 {getRemainingTime(contest?.startTime, curTime)}
               </p>
@@ -131,7 +124,7 @@ const Card = ({ contest }) => {
 // Helper component for status display
 const StatusIndicator = ({ color, status }) => (
   <div className="mb-2 flex items-center justify-start gap-1">
-    <FiberManualRecordIcon className={color} fontSize="small" />
+    <i className={`fa-solid fa-circle-dot ${color}`}></i>
     <p className={`mb-1 text-sm font-normal ${color}`}>{status}</p>
   </div>
 );
