@@ -7,13 +7,14 @@ function Questionrow({ question }) {
   const { token } = useAuthContext();
 
   const [isChecked, setIsChecked] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get(
         `${import.meta.env.VITE_APP_URL}/api/question/${question._id}`,
         {
           headers: {
-            "Content-Type": "Application/json",
+            "Content-Type": "application/json",
             Auth: token,
           },
           withCredentials: true,
@@ -22,7 +23,7 @@ function Questionrow({ question }) {
       setIsChecked(res.data);
     };
     fetchData();
-  }, []);
+  }, [question._id, token]);
 
   const handleCheckboxChange = async () => {
     const api = await axios.post(
@@ -33,7 +34,7 @@ function Questionrow({ question }) {
       },
       {
         headers: {
-          "Content-Type": "Application/json",
+          "Content-Type": "application/json",
           Auth: token,
         },
         withCredentials: true,
@@ -41,42 +42,41 @@ function Questionrow({ question }) {
     );
     if (api.data.success) setIsChecked(!isChecked);
   };
+
   return (
     <div
-      className={`flex items-center justify-between p-4 border rounded-lg transition-colors duration-300 ${
-        isChecked ? "bg-green-100 text-green-800" : "bg-white text-gray-800"
+      className={`flex items-center justify-between p-4 border rounded-lg shadow-md transition-colors duration-300 ${
+        isChecked
+          ? "bg-green-100 text-green-800 border-green-400"
+          : "bg-white text-gray-800 border-gray-300"
       }`}
     >
-      <div className="title">
+      <div className="flex items-center">
         <input
           type="checkbox"
           checked={isChecked}
-          onChange={() => handleCheckboxChange(question.id)}
-          className="mr-4"
+          onChange={handleCheckboxChange}
+          className="mr-4 cursor-pointer"
         />
         <Link
-          className="hover:text-blue-600 hover:opacity-70 hover:shadow-sm"
+          className="text-lg font-semibold hover:text-blue-600 hover:underline transition duration-300"
           to={question.link_lt}
         >
           {question.title}
         </Link>
       </div>
-      <div className="buttons">
-        <Link className="mx-4" to={question.link_yt}>
-          {" "}
-          <i className="fa-brands fa-youtube text-red-600"></i>
+      <div className="flex items-center space-x-4">
+        <Link to={question.link_yt}>
+          <i className="fa-brands fa-youtube text-red-600 hover:scale-110 transition duration-300"></i>
         </Link>
-        <Link className="notes mx-4" to={`/write/notes/${question._id}`}>
-          {" "}
-          <i className="fa-solid fa-plus"></i>
+        <Link to={`/write/notes/${question._id}`}>
+          <i className="fa-solid fa-plus text-gray-800 hover:text-green-600 transition duration-300"></i>
         </Link>
-        <Link className="solution mx-4" to={`/write/solution/${question._id}`}>
-          {" "}
-          <i className="fa-solid fa-pen-nib"></i>
+        <Link to={`/write/solution/${question._id}`}>
+          <i className="fa-solid fa-pen-nib text-gray-800 hover:text-yellow-600 transition duration-300"></i>
         </Link>
-        <Link className="mx-4" to={`/question/${question._id}`}>
-          {" "}
-          <i className="fa-regular fa-comment"></i>
+        <Link to={`/question/${question._id}`}>
+          <i className="fa-regular fa-comment text-gray-800 hover:text-blue-600 transition duration-300"></i>
         </Link>
       </div>
     </div>

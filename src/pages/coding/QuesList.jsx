@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Questionrow from "./Questionrow";
 import { useAuthContext } from "../../context/AuthContext";
+
 const QuestionList = () => {
   const [questions, setQuestions] = useState([]);
-  const {token} =useAuthContext()
+  const { token } = useAuthContext();
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -13,7 +14,7 @@ const QuestionList = () => {
           `${import.meta.env.VITE_APP_URL}/api/question/all`,
           {
             headers: {
-              "Content-Type": "Application/json",
+              "Content-Type": "application/json",
               Auth: token,
             },
             withCredentials: true,
@@ -27,17 +28,23 @@ const QuestionList = () => {
     };
 
     fetchQuestions();
-  }, []);
+  }, [token]); // Add token as a dependency
 
   return (
-    <div className=" mx-auto p-4  text-xl">
+    <div className="mx-auto p-6 text-xl">
+      <h1 className="text-3xl font-bold mb-4 text-center text-gray-800">
+        Questions List
+      </h1>
       <div className="space-y-4">
-        {questions.length > 0 &&
+        {questions.length > 0 ? (
           questions.map((question) => (
             <div key={question._id}>
               <Questionrow question={question} />
             </div>
-          ))}
+          ))
+        ) : (
+          <p className="text-center text-gray-600">No questions available.</p>
+        )}
       </div>
     </div>
   );
