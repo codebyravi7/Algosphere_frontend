@@ -20,7 +20,7 @@ const useTheme = () => {
   }, [theme]);
 
   const setThemeMode = (newTheme) => {
-    console.log("set theme node in use theme-> ::", newTheme);
+    // console.log("set theme node in use theme-> ::", newTheme);
     setTheme(newTheme);
   };
 

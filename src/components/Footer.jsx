@@ -1,5 +1,7 @@
 import React from "react";
 import Email from "./Email";
+import { Link } from "react-router-dom";
+import logo from "../../public/logo.png";
 
 function Footer() {
   return (
@@ -9,16 +11,12 @@ function Footer() {
           <div className="xl:grid xl:grid-cols-3 xl:gap-8">
             <div className="">
               <div className="space-y-4">
-                <div>
-                  <a href="/">
-                    <div className="flex items-center space-x-2 text-2xl font-medium">
-                      <span>
-                        <span className="border p-1 px-2 rounded-xl bg-blue-300">
-                          BeLieve
-                        </span>
-                      </span>
-                    </div>
-                  </a>
+                <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                  <div className="flex-shrink-0">
+                    <Link to={"/"}>
+                      <img src={logo} alt="BeLieve" className="h-8 w-auto" />
+                    </Link>
+                  </div>
                 </div>
                 <div className="max-w-md pr-16 text-md">
                   Enhance productivity and efficiency with cutting-edge

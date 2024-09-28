@@ -42,7 +42,6 @@ function App() {
 
   return (
     <div className="">
-      {console.log("theme in the frontend:: ", theme)}
       <Topbar theme={theme} setThemeMode={setThemeMode} />
 
       <Routes>

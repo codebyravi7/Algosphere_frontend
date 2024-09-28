@@ -11,7 +11,7 @@ const showNotification = (title, message, alarmName) => {
 
 chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name.startsWith("contest_")) {
-    const contestName = alarm.name.replace("contest_", "") //.split("&url=")[0];
+    const contestName = alarm.name.replace("contest_", ""); //.split("&url=")[0];
 
     showNotification(
       "Upcoming Contest",

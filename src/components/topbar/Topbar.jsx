@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
 import useLogout from "../../hooks/useLogout";
 import { useState } from "react";
@@ -28,12 +28,11 @@ function classNames(...classes) {
 
 export default function Topbar({ theme, setThemeMode }) {
   const navigate = useNavigate();
-  const { authUser } = useAuthContext();
+  const { authUser, token } = useAuthContext();
   const { logout } = useLogout();
   const [inputValue, setInputValue] = useState("");
   const [posts, setPosts] = useState([]);
-  const location = useLocation();
-  console.log("location:: ", location.pathname);
+
   const handleLogout = async (e) => {
     e.preventDefault();
     await logout();
@@ -41,6 +40,7 @@ export default function Topbar({ theme, setThemeMode }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (inputValue === "") return;
     try {
       const api = await axios.post(
         `${import.meta.env.VITE_APP_URL}/api/post/search`,
@@ -56,6 +56,7 @@ export default function Topbar({ theme, setThemeMode }) {
         }
       );
       setPosts(api?.data?.posts);
+      setInputValue("");
       navigate("/search/blog", {
         state: { posts },
       });
@@ -87,7 +88,9 @@ export default function Topbar({ theme, setThemeMode }) {
           {/* Logo */}
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex-shrink-0">
-              <img src={logo} alt="BeLieve" className="h-8 w-auto" />
+              <Link to={"/"}>
+                <img src={logo} alt="BeLieve" className="h-8 w-auto" />
+              </Link>
             </div>
           </div>
 
