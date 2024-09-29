@@ -20,6 +20,7 @@ import UserProfile from "./pages/UserProfile";
 import useContests from "./hooks/useContests.js";
 import useTheme from "./hooks/useTheme.js";
 import useShowposts from "./hooks/useShowposts";
+import AddProfile from "./pages/AddProfiles.jsx";
 
 // axios.defaults.baseURL = "http://localhost:5000/api";
 
@@ -36,9 +37,6 @@ function App() {
     fetchPosts();
   }, []);
   const { theme, setThemeMode } = useTheme();
-  // useEffect(() => {
-  //   setupInterceptors(navigate);
-  // }, [navigate]);
 
   return (
     <div className="">
@@ -58,6 +56,10 @@ function App() {
         <Route
           path="/register"
           element={authUser ? <Navigate to="/" /> : <Register />}
+        />
+        <Route
+          path="/add-profiles"
+          element={authUser ? <AddProfile /> : <Navigate to="/login" />}
         />
         <Route
           path="/search/blog"
