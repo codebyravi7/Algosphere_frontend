@@ -35,15 +35,21 @@ const useSignup = () => {
           password,
           confirmPassword,
           gender,
-        }, // Pass data directly as the request body
-        { withCredentials: true }
+        },
+
+        // Pass data directly as the request body
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
       );
 
       const data = response.data; // Axios automatically parses JSON
       if (data.error) {
         throw new Error(data.error);
       }
-      
 
       // Save user data to local storage and update authentication state
       localStorage.setItem("jwt", JSON.stringify(data));
