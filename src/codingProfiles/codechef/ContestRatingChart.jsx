@@ -75,7 +75,16 @@ const ContestRatingChart = ({ ratingData }) => {
     },
   };
 
-  return <Line data={data} options={options} />;
+  return (
+    <div className="flex flex-col items-center justify-center p-4 space-y-4 shadow-lg rounded-lg text-black dark:text-white bg-gray-50 dark:bg-gray-900">
+      <h2 className="text-2xl font-semibold text-center ">
+        Contest Rating Chart
+      </h2>
+      <div className="w-full max-w-4xl">
+        <Line data={data} options={options} />
+      </div>
+    </div>
+  );
 };
 
 export default ContestRatingChart;

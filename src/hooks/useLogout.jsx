@@ -2,11 +2,12 @@ import { useState } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const useLogout = () => {
   const [loading, setLoading] = useState(false);
-  const { setAuthUser,token } = useAuthContext();
-
+  const { setAuthUser, token } = useAuthContext();
+  const navigate = useNavigate();
   const logout = async () => {
     setLoading(true);
     try {
@@ -24,10 +25,9 @@ const useLogout = () => {
       if (data.error) {
         throw new Error(data.error);
       }
-      console.log("data", data);
-      // Clear user data
       if (data.success) localStorage.removeItem("jwt"); // Clear JWT from local storage
       setAuthUser(null);
+      navigate("/login");
     } catch (error) {
       toast.error(error.message); // Display error
     } finally {

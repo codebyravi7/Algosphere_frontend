@@ -9,11 +9,13 @@ const ProfileHeader = ({ fullName, profilePic }) => {
         <img
           src={profilePic}
           alt={`${fullName}'s profile`}
-          className="w-24 h-24 rounded-full border-4 border-white shadow-md"
+          className="w-24 h-24 rounded-full border-4 border-white shadow-md text-white"
         />
         <div>
           <h1 className="text-3xl font-bold">{fullName}</h1>
-          <p className="text-lg mt-2 italic">{"Coder || Enthusiast || Developer || Happy || Code-Eat-Sleep"}</p>
+          <p className="text-lg mt-2 italic">
+            {"Coder || Enthusiast || Developer || Happy || Code-Eat-Sleep"}
+          </p>
         </div>
       </div>
     </header>

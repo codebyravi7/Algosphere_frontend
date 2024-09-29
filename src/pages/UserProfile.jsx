@@ -15,6 +15,9 @@ function UserProfile() {
   const { token } = useAuthContext();
   const { id } = useParams();
 
+  const [leetcodeUsername, setLeetcodeUsername] = useState("");
+  const [codeChefUsername, setCodeChefUsername] = useState("");
+  const [codeForcesUsername, setCodeForcesUsername] = useState("");
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -30,10 +33,14 @@ function UserProfile() {
         );
 
         const data = response?.data;
+        // console.log("data-profile", data);
+        setLeetcodeUsername(data?.codingProfiles?.leetcode);
+        setCodeChefUsername(data?.codingProfiles?.codechef);
+        setCodeForcesUsername(data?.codingProfiles?.codeforces);
         setFullName(data?.fullName); // Correct capitalization
         setProfilePic(data?.profilePic); // Correct capitalization
         setFilteredPosts(data?.filteredPosts); // Correct capitalization
-        console.log(data);
+        // console.log(data);
       } catch (error) {
         console.error("Failed to fetch user profile:", error);
       }
@@ -43,14 +50,14 @@ function UserProfile() {
   }, [id, token]);
 
   return (
-    <div>
+    <div className="pt-16 dark:bg-gray-700">
       {fullName != null && (
         <>
           <ProfileHeader fullName={fullName} profilePic={profilePic} />
           <AllProfile
-            username1="code_y_ravi"
-            username2="ravikushwaha7"
-            username3="codeforces_ravi_7"
+            username1={codeChefUsername}
+            username2={leetcodeUsername}
+            username3={codeForcesUsername}
           />
           <h1 className="text-3xl font-semibold text-center mt-4">
             Top Posts from{" "}
@@ -58,7 +65,7 @@ function UserProfile() {
           </h1>
           <Showposts posts={filteredPosts} />
           <div className="flex justify-center">
-            <Button/>
+            <Button />
           </div>
         </>
       )}
