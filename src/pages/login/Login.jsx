@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function Login() {
   const [inputs, setInputs] = useState({
-    username: "tamannakapati",
+    username: "ravikant",
     password: "123456",
   });
 
@@ -31,8 +31,7 @@ export default function Login() {
               Demo Account Enabled, Just Hit Enter!
             </h4>
             <p className="text-[13px] text-gray-300 mt-3 leading-relaxed">
-              Streamline your coding profiles, track progress, all in one
-              place!
+              Streamline your coding profiles, track progress, all in one place!
             </p>
           </div>
         </div>

@@ -42,7 +42,10 @@ const AddProfile = () => {
           codechef: handles.codechef,
         },
         {
-          headers: { "Content-Type": "Application/json", Auth: token },
+          headers: {
+            "Content-Type": "Application/json",
+            Auth: token,
+          },
           withCredentials: true,
         }
       );
@@ -51,6 +54,7 @@ const AddProfile = () => {
       navigate("/");
     } catch (err) {
       console.log("Error in adding Profiles: ", err);
+      alert("Error in adding ptofiles ,try again");
     }
   };
 
