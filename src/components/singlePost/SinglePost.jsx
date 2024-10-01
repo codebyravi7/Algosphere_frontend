@@ -68,7 +68,7 @@ export default function SinglePost(post) {
   };
 
   return (
-    <div className="flex flex-col gap-6 flex-9 p-5">
+    <div className="text-black dark:text-white shadow-lg  bg-gray-50 dark:bg-gray-800 pt-20 mx-auto max-w-7xl p-1 m-1 ">
       <h1 className="text-center text-3xl font-bold font-lora">
         {post1?.title}
       </h1>
@@ -81,7 +81,7 @@ export default function SinglePost(post) {
       </div>
 
       <div className="footContent flex justify-between">
-        <div className="flex justify-between items-center text-base text-gray-600 font-varela">
+        <div className="flex justify-between items-center text-base font-varela">
           <span>
             Author:{" "}
             <b>
@@ -124,7 +124,7 @@ export default function SinglePost(post) {
         </div>
       </div>
 
-      <p className="text-gray-700 leading-7">{post1?.description}</p>
+      <p className="leading-7">{post1?.description}</p>
 
       {/* Comment section */}
       <div className="comment-box">
@@ -134,7 +134,7 @@ export default function SinglePost(post) {
         <div className="bg-white p-4 rounded-lg shadow-lg">
           <form onSubmit={handleAddComment}>
             <textarea
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition duration-300"
+              className="text-black w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition duration-300"
               type="text"
               placeholder="Add a comment..."
               rows="3"
@@ -162,18 +162,14 @@ export default function SinglePost(post) {
             comments.map((comment) => (
               <div
                 key={comment._id}
-                className="border border-gray-300 rounded-lg p-3 my-2 bg-gray-50 shadow-md"
+                className="border border-gray-300 rounded-lg p-3 my-2  shadow-md"
               >
-                <p className="font-semibold text-gray-800">
-                  {comment?.user?.fullName}
-                </p>
-                <p className="text-gray-600">{comment.content}</p>
+                <p className="font-semibold ">{comment?.user?.fullName}</p>
+                <p className="">{comment.content}</p>
               </div>
             ))
           ) : (
-            <p className="text-gray-500">
-              No comments yet. Be the first to comment!
-            </p>
+            <p className="">No comments yet. Be the first to comment!</p>
           )}
         </div>
       </div>

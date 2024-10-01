@@ -64,7 +64,7 @@ export default function Post({
   };
 
   return (
-    <div className="relative flex flex-col my-6 h-[600px] shadow-lg border border-slate-200 rounded-lg w-96 bg-white dark:bg-gray-800 dark:border-gray-700 transition-all duration-300 hover:shadow-xl">
+    <div className="text-black dark:text-white bg-gray-50 dark:bg-gray-800 relative flex flex-col my-6 h-[600px] shadow-lg rounded-lg w-96 transition-all duration-300 hover:shadow-xl">
       <div className="relative h-80 flex justify-center p-2 m-1 bg-gray-300 overflow-hidden text-white rounded-md">
         <Link to={`/post/${id}`}>
           <img
@@ -140,9 +140,9 @@ export default function Post({
             </Link>
           </span>
           <hr className="my-2 border-slate-300 dark:border-gray-600" />
-          <span className="postDate text-sm text-gray-500">1 hour ago</span>
+          <span className="postDate text-sm">1 hour ago</span>
         </div>
-        <p className="text-slate-600 leading-normal font-light dark:text-gray-300">
+        <p className="leading-normal font-light">
           {truncateText(description, 150)}
         </p>
       </div>
