@@ -19,7 +19,7 @@ const useShowposts = () => {
         }
       );
 
-      const data = response.data; // Axios parses the response automatically
+      const data = response?.data; // Axios parses the response automatically
 
       return data?.allposts; // Return the relevant part of the data
     } catch (error) {

@@ -25,7 +25,8 @@ import Discusspage from "./pages/Discusspage.jsx";
 // axios.defaults.baseURL = "http://localhost:5000/api";
 
 function App() {
-  const { authUser } = useAuthContext();
+  const { authUser, token } = useAuthContext();
+  // console.log(" token in app", token);
   const { loading, error, contests, platforms, setPlatforms } = useContests();
   const { showPosts } = useShowposts();
   const [posts, setPosts] = useState([]);

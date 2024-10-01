@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const AddProfile = () => {
   const { token } = useAuthContext();
+  // console.log("token in add-profiles", token);
   const navigate = useNavigate();
   const [handles, setHandles] = useState({
     leetcode: "",
@@ -24,7 +25,6 @@ const AddProfile = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     if (
       handles.leetcode == "" ||
       handles.codechef == "" ||
@@ -37,9 +37,9 @@ const AddProfile = () => {
       const api = await axios.post(
         `${import.meta.env.VITE_APP_URL}/api/user/add-profiles`,
         {
-          leetcode: handles.leetcode,
-          codeforces: handles.codeforces,
-          codechef: handles.codechef,
+          leetcode: 1,
+          codeforces: 1,
+          codechef: 1,
         },
         {
           headers: {

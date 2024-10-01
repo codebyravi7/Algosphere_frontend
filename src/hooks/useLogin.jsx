@@ -25,6 +25,7 @@ const useLogin = () => {
       }
 
       // Save user data to local storage and update authentication state
+      // console.log("data in login",data)
       localStorage.setItem("jwt", JSON.stringify(data));
       setAuthUser(data);
 

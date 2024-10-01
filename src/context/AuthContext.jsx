@@ -11,6 +11,7 @@ export const AuthContextProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState(
     JSON.parse(localStorage.getItem("jwt")) || null
   );
+  // console.log("authuser::",authUser)
   const token = authUser?.token;
 
   return (
