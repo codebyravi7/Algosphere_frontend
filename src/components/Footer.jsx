@@ -178,10 +178,12 @@ function Footer() {
           <div className="mt-16 border-t border-gray-400/30 pt-8 sm:mt-20 lg:mt-24">
             <div className="text-md text-center ">
               Copyright © 2024 . Crafted with
-              <span className="text-gray-50">♥</span> by AI enthusiasts at
-              <a rel="noopener" href="/">
-                AIOps.
-              </a>
+              <span className="pl-1 text-xl text-red-500">♥</span> by Ravikant
+              <div className="last">
+                <a rel="noopener" href="/">
+                  Portfolio - Showcase Yourself
+                </a>
+              </div>
             </div>
           </div>
         </div>

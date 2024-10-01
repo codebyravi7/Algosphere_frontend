@@ -32,7 +32,7 @@ export default function Post({
   }, []);
 
   const isLikedDB = () => {
-    setIsLiked(likes.includes(authUser._id));
+    setIsLiked(likes?.includes(authUser?._id));
   };
 
   const handleFriend = async () => {
@@ -47,7 +47,7 @@ export default function Post({
   };
 
   const truncateText = (text, maxLength) =>
-    text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+    text?.length > maxLength ? text?.substring(0, maxLength) + "..." : text;
 
   const handleDelete = async () => {
     await axios.post(
@@ -94,7 +94,7 @@ export default function Post({
               </span>
             </div>
             <div className="flex items-center">
-              {author === authUser._id ? (
+              {author === authUser?._id ? (
                 <span className="flex space-x-2">
                   <button
                     onClick={() =>
@@ -149,7 +149,7 @@ export default function Post({
       <div className="px-4 pb-4 pt-0 mt-2 absolute bottom-0 w-full">
         <Link
           to={`/post/${id}`}
-          className="block rounded-md bg-gray-700 dark:bg-gray-50 dark:text-black font-serif text-xl py-2 text-center"
+          className="block rounded-md bg-gray-700 dark:bg-gray-50 text-white dark:text-black font-serif text-xl py-2 text-center"
         >
           Read More
         </Link>

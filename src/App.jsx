@@ -21,7 +21,7 @@ import useContests from "./hooks/useContests.js";
 import useTheme from "./hooks/useTheme.js";
 import useShowposts from "./hooks/useShowposts";
 import AddProfile from "./pages/AddProfiles.jsx";
-
+import Discusspage from "./pages/Discusspage.jsx";
 // axios.defaults.baseURL = "http://localhost:5000/api";
 
 function App() {
@@ -81,10 +81,7 @@ function App() {
           path="/edit-post/:id"
           element={authUser ? <EditPost /> : <Navigate to="/login" />}
         />
-        <Route
-          path="/:id/profile"
-          element={authUser ? <UserProfile /> : <Navigate to="/login" />}
-        />
+        <Route path="/:id/profile" element={<UserProfile />} />
         <Route
           path="/settings"
           element={authUser ? <Settings /> : <Navigate to="/login" />}
@@ -107,6 +104,7 @@ function App() {
           }
         />
         {/* Error Pages */}
+        <Route path="/question/:id" element={<Discusspage />} />
         <Route path="*" element={<Page404 />} />
         <Route path="/error500" element={<Error500 />} /> {/* 500 error page */}
       </Routes>

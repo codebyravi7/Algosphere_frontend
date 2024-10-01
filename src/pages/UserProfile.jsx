@@ -63,6 +63,7 @@ function UserProfile() {
             Top Posts from{" "}
             <span className="text-red-600 border-b-4 border-red-600 cursor-pointer ">{`${fullName}`}</span>
           </h1>
+          {/* {console.log(filteredPosts)} */}
           <Showposts posts={filteredPosts} />
           <div className="flex justify-center">
             <Button />

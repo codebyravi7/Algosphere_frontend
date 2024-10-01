@@ -4,7 +4,6 @@ import Button from "../../components/Smallcomps/Button";
 
 export default function SearchedBlog() {
   const location = useLocation();
-  console.log("called me??");
   const { posts } = location.state || {};
   return (
     <div className="pt-20 min-h-60">
