@@ -25,6 +25,7 @@ const AddProfile = () => {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     if (
       handles.leetcode == "" ||
       handles.codechef == "" ||
@@ -37,9 +38,9 @@ const AddProfile = () => {
       const api = await axios.post(
         `${import.meta.env.VITE_APP_URL}/api/user/add-profiles`,
         {
-          leetcode: 1,
-          codeforces: 1,
-          codechef: 1,
+          leetcode: handles.leetcode,
+          codeforces: handles.codeforces,
+          codechef: handles.codechef,
         },
         {
           headers: {
@@ -50,7 +51,7 @@ const AddProfile = () => {
         }
       );
       const data = api?.data;
-      console.log("data from the add-profiles", data);
+      // console.log("data from the add-profiles", data);
       navigate("/");
     } catch (err) {
       console.log("Error in adding Profiles: ", err);
