@@ -26,7 +26,7 @@ import Loading from "./components/Smallcomps/Loading.jsx";
 
 function App() {
   const { authUser, posts, loadingposts } = useAuthContext();
-  // const { loading, error, contests, platforms, setPlatforms } = useContests();
+  const { loading, error, contests, platforms, setPlatforms } = useContests();
 
   const { theme, setThemeMode } = useTheme();
 
@@ -93,7 +93,7 @@ function App() {
           path="/contest"
           element={
             <>
-              {/* {loading && <Loading title = "Contests" />}
+              {loading && <Loading title = "Contests" />}
 
               {error && <p className="text-center text-red-600">{error}</p>}
 
@@ -103,7 +103,7 @@ function App() {
                   error={error}
                   contests={contests}
                 />
-              )} */}
+              )}
             </>
           }
         />
