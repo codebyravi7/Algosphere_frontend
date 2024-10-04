@@ -12,8 +12,15 @@ export default function Post({
   likes,
   comments,
 }) {
-  const { authUser, token, loading, addFriend, areFriend, addLike } =
-    useAuthContext();
+  const {
+    authUser,
+    token,
+    loading,
+    addFriend,
+    areFriend,
+    addLike,
+    handleDelete,
+  } = useAuthContext();
 
   const navigate = useNavigate();
   const [isFriend, setIsFriend] = useState(false);
@@ -43,18 +50,8 @@ export default function Post({
   const truncateText = (text, maxLength) =>
     text?.length > maxLength ? text?.substring(0, maxLength) + "..." : text;
 
-  const handleDelete = async () => {
-    await axios.post(
-      `${import.meta.env.VITE_APP_URL}/api/post/delete`,
-      { postId: id },
-      {
-        headers: {
-          "Content-Type": "Application/json",
-          Auth: token,
-        },
-        withCredentials: true,
-      }
-    );
+  const handleDeletePost = async () => {
+    await handleDelete({ id: id });
   };
 
   return (
@@ -107,7 +104,7 @@ export default function Post({
                     </span>
                   </button>
                   <button
-                    onClick={handleDelete}
+                    onClick={handleDeletePost}
                     className="text-red-500 hover:text-red-600 transition-colors"
                   >
                     <span className="material-symbols-outlined">delete</span>

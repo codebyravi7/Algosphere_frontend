@@ -27,8 +27,8 @@ function classNames(...classes) {
 
 export default function Topbar({ theme, setThemeMode }) {
   const navigate = useNavigate();
-  const { authUser, token ,logout} = useAuthContext();
- 
+  const { authUser, token, logout } = useAuthContext();
+
   const [inputValue, setInputValue] = useState("");
   const [posts, setPosts] = useState([]);
 
@@ -71,7 +71,7 @@ export default function Topbar({ theme, setThemeMode }) {
   return (
     <Disclosure
       as="nav"
-      className="bg-white dark:bg-gray-900 text-black dark:text-white fixed w-full z-10 mb-12 shadow-md"
+      className=" bg-white/30 dark:bg-gray-900/30 backdrop-blur-lg text-black dark:text-white fixed w-full z-10 mb-12 shadow-xl"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
@@ -103,7 +103,7 @@ export default function Topbar({ theme, setThemeMode }) {
                   className={classNames(
                     item.current
                       ? "bg-indigo-100 text-indigo-700"
-                      : "text-gray-500 dark:text-gray-300 hover:bg-gray-100 hover:text-black dark:hover:bg-gray-800 dark:hover:text-white",
+                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 hover:text-black dark:hover:bg-gray-800 dark:hover:text-white",
                     "px-3 py-2 rounded-md text-sm font-medium transition"
                   )}
                 >
@@ -123,7 +123,7 @@ export default function Topbar({ theme, setThemeMode }) {
                     onChange={(e) => setInputValue(e.target.value)}
                   />
                   <button type="submit">
-                    <i className="fas fa-search text-gray-500"></i>
+                    <i className="fas fa-search text-gray-700"></i>
                   </button>
                 </form>
               </div>
@@ -134,7 +134,7 @@ export default function Topbar({ theme, setThemeMode }) {
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <button
               onClick={handleChange}
-              className="mr-2 relative border  p-1 rounded-md bg-gray-100 dark:bg-gray-800 text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+              className="mr-2 relative border p-1 rounded-md bg-gray-100 dark:bg-gray-800 text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition"
             >
               {theme === "light" ? (
                 <span className="material-symbols-outlined">dark_mode</span>
@@ -217,7 +217,7 @@ export default function Topbar({ theme, setThemeMode }) {
                 className={classNames(
                   item.current
                     ? "bg-indigo-100 text-indigo-700"
-                    : "text-gray-500 hover:bg-gray-100 hover:text-black dark:hover:bg-gray-800 dark:hover:text-white",
+                    : "text-gray-700 hover:bg-gray-100 hover:text-black dark:hover:bg-gray-800 dark:hover:text-white",
                   "block rounded-md px-3 py-2 text-base font-medium"
                 )}
               >

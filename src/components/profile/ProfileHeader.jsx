@@ -4,7 +4,7 @@ const ProfileHeader = ({ fullName, profilePic }) => {
   // In a real application, you'd fetch this data from an API or props
 
   return (
-    <header className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-6 shadow-lg">
+    <header className="bg-gradient-to-r from-gray-500 to-indigo-300 text-white p-6 shadow-lg">
       <div className="container mx-auto flex items-center space-x-6">
         <img
           src={profilePic}

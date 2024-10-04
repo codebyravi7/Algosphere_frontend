@@ -21,11 +21,12 @@ import useContests from "./hooks/useContests.js";
 import useTheme from "./hooks/useTheme.js";
 import AddProfile from "./pages/AddProfiles.jsx";
 import Discusspage from "./pages/Discusspage.jsx";
+import Loading from "./components/Smallcomps/Loading.jsx";
 // axios.defaults.baseURL = "http://localhost:5000/api";
 
 function App() {
-  const { authUser, token, posts } = useAuthContext();
-    const { loading, error, contests, platforms, setPlatforms } = useContests();
+  const { authUser, posts, loadingposts } = useAuthContext();
+  // const { loading, error, contests, platforms, setPlatforms } = useContests();
 
   const { theme, setThemeMode } = useTheme();
 
@@ -38,7 +39,17 @@ function App() {
           path="/"
           element={
             // authUser ? <h1 className="text-4xl pt-40">Hii</h1> : <Navigate to="/login" />
-            authUser ? <Homepage posts={posts} /> : <Navigate to="/login" />
+            authUser ? (
+              <>
+                {loadingposts ? (
+                  <Loading title="Posts" />
+                ) : (
+                  <Homepage posts={posts} />
+                )}
+              </>
+            ) : (
+              <Navigate to="/login" />
+            )
           }
         />
         <Route
@@ -82,7 +93,8 @@ function App() {
           path="/contest"
           element={
             <>
-              {loading && <p className="text-center">Loading contests...</p>}
+              {/* {loading && <Loading title = "Contests" />}
+
               {error && <p className="text-center text-red-600">{error}</p>}
 
               {!loading && (
@@ -91,7 +103,7 @@ function App() {
                   error={error}
                   contests={contests}
                 />
-              )}
+              )} */}
             </>
           }
         />

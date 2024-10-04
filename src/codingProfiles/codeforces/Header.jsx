@@ -25,7 +25,7 @@ const CodeforceUserCard = ({ data }) => {
   };
 
   return (
-    <div className="w-full xl:min-w-80 xl:max-w-80 bg-gradient-to-r from-gray-100 to-gray-200 shadow-lg rounded-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-2xl duration-300">
+    <div className="w-full xl:min-w-80 max-w-[570px] xl:max-w-80 bg-gradient-to-r from-gray-100 to-gray-200 shadow-lg rounded-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-2xl duration-300">
       <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-6">
         <div className="flex items-center space-x-6">
           <img

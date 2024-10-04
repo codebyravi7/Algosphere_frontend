@@ -70,7 +70,7 @@ const RatingGraph = ({ contestData }) => {
   };
 
   return (
-    <div className="px-2 w-full max-w-xl mx-auto bg-gray-50 dark:bg-gray-100 shadow-lg">
+    <div className="mt-12 xl:mt-0 px-2 w-full max-w-xl mx-auto bg-gray-50 dark:bg-gray-100 shadow-lg">
       <Line data={data} options={options} />
     </div>
   );

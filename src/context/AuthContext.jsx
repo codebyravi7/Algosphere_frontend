@@ -16,9 +16,10 @@ export const AuthContextProvider = ({ children }) => {
   const token = authUser?.token;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [loadingposts, setLoadingPosts] = useState(false);
   const [reload, setReload] = useState(false);
   const [posts, setPosts] = useState([]);
-  // const [error, setError] = useState(false);
+  const [error, setError] = useState(false);
   // const [likes, setLikes] = useState();
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export const AuthContextProvider = ({ children }) => {
       await showPosts();
     };
     fetchdata();
-  }, [reload,token]);
+  }, [reload, token]);
 
   const signup = async ({
     fullName,
@@ -185,7 +186,7 @@ export const AuthContextProvider = ({ children }) => {
       setLoading(false);
     }
   };
-  const addPost = async (description,formData, id, qid) => {
+  const addPost = async (description, formData, id, qid) => {
     try {
       console.log("formdata:", description);
       setLoading(true); // Optional: Set loading state before making the request
@@ -222,7 +223,7 @@ export const AuthContextProvider = ({ children }) => {
           withCredentials: true,
         }
       );
-      console.log(res);
+      setReload(!reload);
     } catch (error) {
       console.error(error);
       toast.error(error.message); // Show error message in the toast
@@ -252,7 +253,7 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
   const showPosts = async () => {
-    setLoading(true);
+    setLoadingPosts(true);
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_APP_URL}/api/post/allposts`,
@@ -270,7 +271,7 @@ export const AuthContextProvider = ({ children }) => {
     } catch (error) {
       toast.error(error.message); // Display error message
     } finally {
-      setLoading(false); // Always execute after request completion
+      setLoadingPosts(false); // Always execute after request completion
     }
   };
   const showPost = async (id) => {
@@ -361,6 +362,7 @@ export const AuthContextProvider = ({ children }) => {
         addPost,
         editPost,
         addLike,
+        loadingposts,
         showPosts,
         showPost,
         handleAddComment,
@@ -414,4 +416,3 @@ function convertTextToHTML(inputText) {
   // Join the HTML elements and return the result
   return htmlElements.join("\n");
 }
-

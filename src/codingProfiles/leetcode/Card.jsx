@@ -12,7 +12,7 @@ const RankCard = ({ data }) => {
   } = data;
 
   return (
-    <div className="w-full max-w-full mx-auto p-8 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg shadow-lg text-white">
+    <div className="p-8 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg shadow-lg text-white">
       <h2 className="text-2xl font-bold text-center mb-6 border-b border-blue-300 pb-2">
         LeetCode Stats
       </h2>

@@ -25,7 +25,7 @@ export default function SinglePost(post) {
   };
 
   return (
-    <div className="text-black dark:text-white shadow-lg  bg-gray-50 dark:bg-gray-800 pt-20 mx-auto max-w-7xl p-1 m-1 ">
+    <div className="text-black dark:text-white shadow-lg  bg-gray-50 dark:bg-gray-800 pt-20 mx-auto max-w-7xl px-4 ">
       <h1 className="text-center text-3xl font-bold font-lora">
         {post1?.title}
       </h1>
@@ -88,10 +88,10 @@ export default function SinglePost(post) {
         <p className="text-xl font-semibold">Comments ☰</p>
 
         {/* Add Comment Form */}
-        <div className="bg-white p-4 rounded-lg shadow-lg">
+        <div className=" p-4 rounded-lg shadow-lg bg-gray-100 dark:bg-gray-500">
           <form onSubmit={handleComment}>
             <textarea
-              className="text-black w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition duration-300"
+              className="outline-none dark:text-white bg-gray-50  dark:bg-gray-700 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition duration-300"
               type="text"
               placeholder="Add a comment..."
               rows="3"
