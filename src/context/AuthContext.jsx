@@ -186,9 +186,9 @@ export const AuthContextProvider = ({ children }) => {
       setLoading(false);
     }
   };
-  const addPost = async (description, formData, id, qid) => {
+  const addPost = async (formData, id, qid) => {
     try {
-      console.log("formdata:", description);
+      
       setLoading(true); // Optional: Set loading state before making the request
       const res = await axios.post(
         `${import.meta.env.VITE_APP_URL}/api/post/add/${id}/${qid}`,
