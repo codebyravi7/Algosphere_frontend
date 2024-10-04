@@ -19,34 +19,25 @@ import { useEffect, useState } from "react";
 import UserProfile from "./pages/UserProfile";
 import useContests from "./hooks/useContests.js";
 import useTheme from "./hooks/useTheme.js";
-import useShowposts from "./hooks/useShowposts";
 import AddProfile from "./pages/AddProfiles.jsx";
 import Discusspage from "./pages/Discusspage.jsx";
 // axios.defaults.baseURL = "http://localhost:5000/api";
 
 function App() {
-  const { authUser, token } = useAuthContext();
-  // console.log(" token in app", token);
-  const { loading, error, contests, platforms, setPlatforms } = useContests();
-  const { showPosts } = useShowposts();
-  const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const res = await showPosts();
-      setPosts(res || []);
-    };
-    fetchPosts();
-  }, []);
+  const { authUser, token, posts } = useAuthContext();
+    const { loading, error, contests, platforms, setPlatforms } = useContests();
+
   const { theme, setThemeMode } = useTheme();
 
   return (
-    <div className="">
+    <div className="bg-gray-50 dark:bg-gray-800">
       <Topbar theme={theme} setThemeMode={setThemeMode} />
 
       <Routes>
         <Route
           path="/"
           element={
+            // authUser ? <h1 className="text-4xl pt-40">Hii</h1> : <Navigate to="/login" />
             authUser ? <Homepage posts={posts} /> : <Navigate to="/login" />
           }
         />
