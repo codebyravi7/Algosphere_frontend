@@ -2,10 +2,10 @@ import { useState } from "react";
 import axios from "axios";
 import { useAuthContext } from "../context/AuthContext";
 const useLikepost = () => {
-  const [likes, setLikes] = useState();
   const {token} =useAuthContext()
+  const [likes, setLikes] = useState();
   const addLike = async (postid) => {
-    console.log("postid:", postid);
+    
     try {
       const response = await axios.put(
         `${import.meta.env.VITE_APP_URL}/api/post/like`,

@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
-import useLogout from "../../hooks/useLogout";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -28,8 +27,8 @@ function classNames(...classes) {
 
 export default function Topbar({ theme, setThemeMode }) {
   const navigate = useNavigate();
-  const { authUser, token } = useAuthContext();
-  const { logout } = useLogout();
+  const { authUser, token ,logout} = useAuthContext();
+ 
   const [inputValue, setInputValue] = useState("");
   const [posts, setPosts] = useState([]);
 
@@ -133,21 +132,18 @@ export default function Topbar({ theme, setThemeMode }) {
 
           {/* Profile and Theme Toggle */}
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+            <button
+              onClick={handleChange}
+              className="mr-2 relative border  p-1 rounded-md bg-gray-100 dark:bg-gray-800 text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+            >
+              {theme === "light" ? (
+                <span className="material-symbols-outlined">dark_mode</span>
+              ) : (
+                <span className="material-symbols-outlined">light_mode</span>
+              )}
+            </button>
             {authUser ? (
               <>
-                <button
-                  onClick={handleChange}
-                  className="relative border text-lg p-2 rounded-md bg-gray-100 dark:bg-gray-800 text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition"
-                >
-                  {theme === "light" ? (
-                    <span className="material-symbols-outlined">dark_mode</span>
-                  ) : (
-                    <span className="material-symbols-outlined">
-                      light_mode
-                    </span>
-                  )}
-                </button>
-
                 <Menu as="div" className="relative ml-3">
                   <div>
                     <MenuButton className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white">

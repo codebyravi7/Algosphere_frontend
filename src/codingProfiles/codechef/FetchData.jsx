@@ -12,17 +12,15 @@ function useFetchData() {
         `https://codechef-api.vercel.app/handle/${username}`
       );
       setData(response.data);
-      // console.log(response.data);
+      console.log(response.data);
     } catch (error) {
       setError("Error fetching data");
-      console.error(error);
-      // alert("error aagyi");
     } finally {
       setLoading(false);
     }
   };
 
-  return { data, loading, error ,fetchData};
+  return { data, loading, error, fetchData };
 }
 
 export default useFetchData;

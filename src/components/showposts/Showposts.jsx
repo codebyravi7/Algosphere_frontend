@@ -3,9 +3,9 @@ import Post from '../post/Post';
 
 function Showposts({posts}) {
   return (
-    <div className="mx-auto max-w-7xl posts flex justify-around items-center">
-      {posts.length > 0 ? (
-        posts.map((post) => {
+    <div className="pt-4 mx-auto max-w-7xl posts flex justify-around items-center">
+      {posts?.length > 0 ? (
+        posts?.map((post) => {
           return (
             <Post
               key={post?._id}

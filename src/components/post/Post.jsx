@@ -1,8 +1,6 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../../context/AuthContext";
-import useAddFriend from "../../hooks/useAddFriend";
-import useLikePost from "../../hooks/useLikePost";
 import axios from "axios";
 
 export default function Post({
@@ -14,9 +12,9 @@ export default function Post({
   likes,
   comments,
 }) {
-  const { authUser, token } = useAuthContext();
-  const { loading, addFriend, areFriend } = useAddFriend();
-  const { addLike } = useLikePost();
+  const { authUser, token, loading, addFriend, areFriend, addLike } =
+    useAuthContext();
+
   const navigate = useNavigate();
   const [isFriend, setIsFriend] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
@@ -30,22 +28,18 @@ export default function Post({
     };
     fetchData();
   }, []);
-
   const isLikedDB = () => {
     setIsLiked(likes?.includes(authUser?._id));
   };
-
   const handleFriend = async () => {
     await addFriend(author);
     setIsFriend((prev) => !prev);
   };
-
   const handleLike = async () => {
     await addLike(id);
     setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
     setIsLiked((prev) => !prev);
   };
-
   const truncateText = (text, maxLength) =>
     text?.length > maxLength ? text?.substring(0, maxLength) + "..." : text;
 

@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Cloudinary } from "cloudinary-core";
-import useEditPost from "../../hooks/useEditPost";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { Upload, X } from "lucide-react";
+import { useAuthContext } from "../../context/AuthContext";
 export default function Write() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -13,7 +12,7 @@ export default function Write() {
   const [title, setTitle] = useState(prevtitle);
   const [description, setDescription] = useState(prevdescription);
   const formdata = new FormData();
-  const { loading, editPost } = useEditPost();
+  const { loading, editPost } = useAuthContext();
   const { id } = useParams();
   console.log("id::", id);
   const handleSubmit = async (e) => {

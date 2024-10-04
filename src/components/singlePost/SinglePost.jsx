@@ -5,66 +5,23 @@ import { useState } from "react";
 import Button from "../Smallcomps/Button";
 export default function SinglePost(post) {
   const post1 = post?.post;
-  const { authUser, token } = useAuthContext();
+  const { authUser, token, loading, error, handleAddComment, handleDelete } =
+    useAuthContext();
   const navigate = useNavigate();
   const [comment, setComment] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const comments = post1?.comments || [];
 
-  const handleDelete = async () => {
-    setLoading(true);
-    setError("");
-    try {
-      await axios.post(
-        `${import.meta.env.VITE_APP_URL}/api/post/delete`,
-        {
-          postId: post1?._id,
-        },
-        {
-          headers: {
-            "Content-Type": "Application/json",
-            Auth: token,
-          },
-          withCredentials: true,
-        }
-      );
-      navigate("/");
-    } catch (err) {
-      setError("Failed to delete post. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+  const handleDeletePost = async () => {
+    await handleDelete({ id: post1?._id });
   };
 
-  const handleAddComment = async (e) => {
+  const handleComment = async (e) => {
     e.preventDefault();
-    if (!comment.trim()) return; // prevent empty comments
-    setLoading(true);
-    setError("");
-    try {
-      const api = await axios.post(
-        `${import.meta.env.VITE_APP_URL}/api/post/addcomment`,
-        {
-          postId: post1?._id,
-          content: comment,
-        },
-        {
-          headers: {
-            "Content-Type": "Application/json",
-            Auth: token,
-          },
-          withCredentials: true,
-        }
-      );
-      comments.unshift({ _id: Date.now(), user: authUser, content: comment });
-      setComment("");
-    } catch (err) {
-      setError("Failed to add comment. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    console.log(comment);
+    comments.unshift({ _id: Date.now(), user: authUser, content: comment });
+    setComment("");
+    await handleAddComment({ comment, id: post1?._id });
   };
 
   return (
@@ -113,7 +70,7 @@ export default function SinglePost(post) {
                 ✏️ Edit
               </button>
               <button
-                onClick={handleDelete}
+                onClick={handleDeletePost}
                 disabled={loading}
                 className="text-red-600 hover:text-red-800 transition-colors duration-300"
               >
@@ -132,7 +89,7 @@ export default function SinglePost(post) {
 
         {/* Add Comment Form */}
         <div className="bg-white p-4 rounded-lg shadow-lg">
-          <form onSubmit={handleAddComment}>
+          <form onSubmit={handleComment}>
             <textarea
               className="text-black w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition duration-300"
               type="text"
