@@ -12,20 +12,22 @@ export const AuthContextProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState(
     JSON.parse(localStorage.getItem("jwt")) || null
   );
+  // console.log(authUser)
   const token = authUser?.token;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [loadingposts, setLoadingPosts] = useState(false);
-  const [reload, setReload] = useState(false);
+  // const [reload, setReload] = useState(false);
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(false);
-
+  const [friends, setFriends] = useState(authUser?.user?.friends);
+  console.log(friends)
   useEffect(() => {
     const fetchdata = async () => {
       await showPosts();
     };
     fetchdata();
-  }, [reload, token]);
+  }, [token]);
 
   const signup = async ({
     fullName,
@@ -73,7 +75,7 @@ export const AuthContextProvider = ({ children }) => {
       localStorage.setItem("jwt", JSON.stringify(data));
       setAuthUser(data);
       navigate("/add-profiles");
-      toast.success(data?.message); 
+      toast.success(data?.message);
     } catch (error) {
       toast.error(error?.message);
     } finally {
@@ -144,7 +146,7 @@ export const AuthContextProvider = ({ children }) => {
     try {
       const api = await axios.post(
         `${import.meta.env.VITE_APP_URL}/api/user/addfriend`,
-        { id }, // Pass the data directly
+        { id },
         {
           headers: {
             "Content-Type": "Application/json",
@@ -153,40 +155,28 @@ export const AuthContextProvider = ({ children }) => {
           withCredentials: true,
         }
       );
+
+      // Update friends state
+      if (areFriend(id)) {
+        //filter out
+        setFriends((prevFriends) => prevFriends.filter((friendId) => friendId !== id));
+      } else {
+        setFriends((prevFriends) => [...prevFriends, id]);
+      }
       toast.success(api?.data?.message);
-      // setReload(!reload);
     } catch (error) {
-      toast.error(error?.message);
+      toast.error(error.message);
     } finally {
       setLoading(false);
     }
   };
-  const areFriend = async (id) => {
-    setLoading(true);
-    // console.log(id);
-    try {
-      const api = await axios.get(
-        `${import.meta.env.VITE_APP_URL}/api/user/arefriend/${id}`,
-        {
-          headers: {
-            "Content-Type": "Application/json",
-            Auth: token,
-          },
-          withCredentials: true,
-        }
-      );
-      const data = api?.data;
-      // console.log(data)
-      return data;
-    } catch (error) {
-      console.error(error.message);
-    } finally {
-      setLoading(false);
-    }
+
+  const areFriend = (id) => {
+    return friends.includes(id);
   };
   const addPost = async (formData, id, qid) => {
     try {
-      setLoading(true); // Optional: Set loading state before making the request
+      setLoading(true);
       const res = await axios.post(
         `${import.meta.env.VITE_APP_URL}/api/post/add/${id}/${qid}`,
         formData,
@@ -198,36 +188,50 @@ export const AuthContextProvider = ({ children }) => {
           withCredentials: true,
         }
       );
-      setReload(!reload);
-      toast.success(res?.data?.message);
+
+      const newPost = res.data.post;
+
+      // Add new post to the posts state without reloading
+      setPosts((prevPosts) => [newPost, ...prevPosts]);
+
+      toast.success(res.data.message);
     } catch (error) {
-      toast.error(error.message); // Show error message in the toast
+      toast.error(error.message);
     } finally {
-      setLoading(false); // Always set loading to false, whether it succeeds or fails
+      setLoading(false);
     }
   };
+
   const editPost = async (formData) => {
     try {
-      setLoading(true); // Optional: Set loading state before making the request
+      setLoading(true);
       const res = await axios.put(
         `${import.meta.env.VITE_APP_URL}/api/post/edit`,
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data/json",
+            "Content-Type": "multipart/form-data",
             Auth: token,
           },
           withCredentials: true,
         }
       );
-      setReload(!reload);
-      toast(res?.data?.message)
+      const updatedPost = res.data.updatedPost;
+
+      // Update posts array without reloading
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post._id === updatedPost._id ? updatedPost : post
+        )
+      );
+      toast(res.data.message);
     } catch (error) {
-      toast.error(error.message); // Show error message in the toast
+      toast.error(error.message);
     } finally {
-      setLoading(false); // Always set loading to false, whether it succeeds or fails
+      setLoading(false);
     }
   };
+
   const addLike = async (postid) => {
     try {
       const response = await axios.put(
@@ -241,11 +245,11 @@ export const AuthContextProvider = ({ children }) => {
           withCredentials: true,
         }
       );
-
     } catch (error) {
-      toast.error(error); 
+      toast.error(error);
     }
   };
+
   const showPosts = async () => {
     setLoadingPosts(true);
     try {
@@ -317,13 +321,10 @@ export const AuthContextProvider = ({ children }) => {
   };
   const handleDelete = async ({ id }) => {
     setLoading(true);
-    setError("");
     try {
       await axios.post(
         `${import.meta.env.VITE_APP_URL}/api/post/delete`,
-        {
-          postId: id,
-        },
+        { postId: id },
         {
           headers: {
             "Content-Type": "Application/json",
@@ -332,10 +333,13 @@ export const AuthContextProvider = ({ children }) => {
           withCredentials: true,
         }
       );
-      setReload(!reload);
+
+      // Remove post from state without hard-reloading
+      setPosts((prevPosts) => prevPosts.filter((post) => post._id !== id));
+      toast.success("Post deleted successfully");
       navigate("/");
-    } catch (err) {
-      setError("Failed to delete post. Please try again.");
+    } catch (error) {
+      toast.error("Failed to delete post. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -362,6 +366,7 @@ export const AuthContextProvider = ({ children }) => {
         handleAddComment,
         handleDelete,
         posts,
+        friends
       }}
     >
       {children}

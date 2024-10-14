@@ -44,7 +44,7 @@ export default function SinglePost(post) {
             <b>
               <Link
                 className="text-blue-600 hover:text-blue-800"
-                to={`/posts?username=${post1?.user?.fullName}`}
+                to={`/${post1?.user?._id}/profile`}
               >
                 {post1?.user?.fullName}
               </Link>

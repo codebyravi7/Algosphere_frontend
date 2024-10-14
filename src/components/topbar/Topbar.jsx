@@ -28,7 +28,6 @@ function classNames(...classes) {
 export default function Topbar({ theme, setThemeMode }) {
   const navigate = useNavigate();
   const { authUser, token, logout } = useAuthContext();
-
   const [inputValue, setInputValue] = useState("");
   const [posts, setPosts] = useState([]);
 
@@ -149,7 +148,7 @@ export default function Topbar({ theme, setThemeMode }) {
                     <MenuButton className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white">
                       <img
                         alt=""
-                        src={authUser?.profilePic}
+                        src={authUser?.user?.profilePic}
                         className="h-8 w-8 rounded-full border-2 border-gray-300 dark:border-gray-600"
                       />
                     </MenuButton>
@@ -157,7 +156,7 @@ export default function Topbar({ theme, setThemeMode }) {
                   <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800 dark:text-white">
                     <MenuItem>
                       <Link
-                        to={`/${authUser._id}/profile`}
+                        to={`/${authUser?.user?._id}/profile`}
                         className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
                       >
                         Your Profile

@@ -1,7 +1,6 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../../context/AuthContext";
-import axios from "axios";
 
 export default function Post({
   title,
@@ -14,12 +13,11 @@ export default function Post({
 }) {
   const {
     authUser,
-    token,
-    loading,
     addFriend,
     areFriend,
     addLike,
     handleDelete,
+    friends
   } = useAuthContext();
 
   const navigate = useNavigate();
@@ -34,7 +32,7 @@ export default function Post({
       isLikedDB();
     };
     fetchData();
-  }, []);
+  }, [friends]);
   const isLikedDB = () => {
     setIsLiked(likes?.includes(authUser?._id));
   };
@@ -85,7 +83,7 @@ export default function Post({
               </span>
             </div>
             <div className="flex items-center">
-              {author === authUser?._id ? (
+              {author === authUser?.user?._id ? (
                 <span className="flex space-x-2">
                   <button
                     onClick={() =>
