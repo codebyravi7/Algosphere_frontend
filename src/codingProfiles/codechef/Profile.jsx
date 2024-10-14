@@ -31,11 +31,11 @@ const ProfileCard = ({ username = "pritishtomar_1" }) => {
   return (
     <>
       {data?.success ? (
-        <div className="w-full max-w-5xl mx-auto bg-gray-200 dark:bg-gray-800 shadow-lg rounded-lg p-6 transition-all duration-300">
+        <div className="w-full mx-auto bg-gray-200 dark:bg-gray-800 shadow-lg rounded-lg p-6 transition-all duration-300">
           {/* Profile and Contest Chart */}
-          <div className="flex flex-col lg:flex-row lg:space-x-6 items-center lg:items-start">
+          <div className="flex flex-col xl:flex-row xl:space-x-6 items-center xl:items-start">
             {/* Profile Section */}
-            <div className="w-full lg:w-1/3 flex flex-col items-center bg-blue-50 dark:bg-gray-900 p-6 rounded-lg">
+            <div className="w-full  xl:w-[400px] flex flex-col items-center bg-blue-50 dark:bg-gray-900 p-6 rounded-lg">
               <img
                 src={profile}
                 alt="Profile"
@@ -74,21 +74,19 @@ const ProfileCard = ({ username = "pritishtomar_1" }) => {
                   <span className="font-semibold">{countryRank}</span>
                 </p>
               </div>
+          <div className="lastactive mt-8">
+            <LastActive heatMap={heatMap} />
+          </div>
             </div>
 
             {/* Contest Rating Chart */}
-            <div className="w-full lg:w-2/3 mt-6 lg:mt-0 ">
-              <h3 className="text-center text-2xl  font-serif text-gray-900 dark:text-white mb-4">
-                Contest History
-              </h3>
+            <div className="w-full xl:w-2/3 mt-6 xl:mt-0 ">
+            
               <ContestRatingChart ratingData={ratingData} />
             </div>
           </div>
 
           {/* Last Active Section */}
-          <div className="lastactive mt-8">
-            <LastActive heatMap={heatMap} />
-          </div>
         </div>
       ) : (
         <div className="flex justify-center items-center h-full mb-4 text-gray-500 dark:text-gray-300">

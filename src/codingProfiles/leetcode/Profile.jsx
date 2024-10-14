@@ -21,7 +21,7 @@ const LeetcodeProfile = ({ username = "amangupta07" }) => {
   };
 
   return (
-    <div className=" min-h-screen bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+    <div className="bg-gray-100 dark:bg-gray-700 p-4">
       <RankCard data={data} />
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProfileHeader from "../components/profile/ProfileHeader";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useAuthContext } from "../context/AuthContext";
 import Showposts from "../components/showposts/Showposts";
@@ -8,16 +8,20 @@ import AllProfile from "../codingProfiles/Coding/AllProfile";
 import Button from "../components/Smallcomps/Button";
 
 function UserProfile() {
-  const [fullName, setFullName] = useState(null); // Consistent naming
-  const [profilePic, setProfilePic] = useState(null); // Consistent naming
+  const { token,authUser } = useAuthContext();
+  const { id } = useParams();
+  const fullName =authUser?.user?.fullName;
+  const profilePic=authUser?.user?.profilePic;
+  const leetcodeUsername =authUser?.user?.codingProfiles?.leetcode;
+  const codeChefUsername =authUser?.user?.codingProfiles?.codechef;
+  const codeForcesUsername=authUser?.user?.codingProfiles?.codeforces;
+  
   const [filteredPosts, setFilteredPosts] = useState(null); // Consistent naming
 
-  const { token } = useAuthContext();
-  const { id } = useParams();
+  
+  console.log("id",id)
+  console.log("authuser",authUser)
 
-  const [leetcodeUsername, setLeetcodeUsername] = useState("");
-  const [codeChefUsername, setCodeChefUsername] = useState("");
-  const [codeForcesUsername, setCodeForcesUsername] = useState("");
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -30,19 +34,10 @@ function UserProfile() {
             },
             withCredentials: true,
           }
-        );
-
-        const data = response?.data;
-        // console.log("data-profile", data);
-        setLeetcodeUsername(data?.codingProfiles?.leetcode);
-        setCodeChefUsername(data?.codingProfiles?.codechef);
-        setCodeForcesUsername(data?.codingProfiles?.codeforces);
-        setFullName(data?.fullName); // Correct capitalization
-        setProfilePic(data?.profilePic); // Correct capitalization
-        setFilteredPosts(data?.filteredPosts); // Correct capitalization
-        // console.log(data);
+        );        
+        setFilteredPosts(response?.data?.filteredPosts); // Correct capitalization
       } catch (error) {
-        console.error("Failed to fetch user profile:", error);
+        toast.error("Failed to fetch user profile:", error);
       }
     };
 
@@ -50,6 +45,7 @@ function UserProfile() {
   }, [id, token]);
 
   return (
+    
     <div className="pt-16 dark:bg-gray-700">
       {fullName != null && (
         <>
