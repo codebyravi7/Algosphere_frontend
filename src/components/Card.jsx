@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 const STATUS = {
   ongoing: "Ongoing",
@@ -27,36 +27,6 @@ const Card = ({ contest }) => {
   if (curTime > endDate) currentStatus = STATUS.ended;
   else if (curTime >= startDate && curTime <= endDate)
     currentStatus = STATUS.ongoing;
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => setCurTime(new Date()), 1000);
-
-  //   // Check if alarm is already set for the contest
-  //   chrome?.alarms?.get("contest_" + contest?.title, (alarm) => {
-  //     if (alarm) setAlarmSet(true);
-  //   });
-
-  //   return () => clearInterval(interval);
-  // }, [contest?.title]);
-
-  // const handleToggleAlarm = () => {
-  //   const alarmTime = new Date(
-  //     new Date(contest?.startTime).getTime() - 10 * 60 * 1000
-  //   ); // 10 minutes before contest start time
-
-  //   if (alarmSet) {
-  //     chrome.alarms.clear("contest_" + contest?.title, () => {
-  //       toast("Alarm removed for the contest!");
-  //       setAlarmSet(false);
-  //     });
-  //   } else {
-  //     chrome.alarms.create("contest_" + contest?.title, {
-  //       when: alarmTime.getTime(),
-  //     });
-  //     toast("Alarm set for 10 minutes before the contest!");
-  //     setAlarmSet(true);
-  //   }
-  // };
 
   return (
     <a
@@ -90,19 +60,6 @@ const Card = ({ contest }) => {
                 {getRemainingTime(contest?.startTime, curTime)}
               </p>
             </span>
-            {/* <span
-              onClick={(e) => {
-                e.preventDefault();
-                handleToggleAlarm();
-              }}
-              className="ml-1 px-2 cursor-pointer"
-            >
-              {alarmSet ? (
-                <AlarmOffIcon color="info" />
-              ) : (
-                <AccessAlarmIcon color="info" />
-              )}
-            </span> */}
           </div>
         )}
 

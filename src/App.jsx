@@ -14,6 +14,7 @@ import Footer from "./components/Footer";
 import Page404 from "./pages/Page404";
 import Error500 from "./pages/Error500"; // Your 500 error page
 import ContestList from "./components/ContestList";
+import { Toaster } from "react-hot-toast";
 
 import { useEffect, useState } from "react";
 import UserProfile from "./pages/UserProfile";
@@ -93,7 +94,7 @@ function App() {
           path="/contest"
           element={
             <>
-              {loading && <Loading title = "Contests" />}
+              {loading && <Loading title="Contests" />}
 
               {error && <p className="text-center text-red-600">{error}</p>}
 
@@ -113,6 +114,7 @@ function App() {
         <Route path="/error500" element={<Error500 />} /> {/* 500 error page */}
       </Routes>
       <Footer />
+      <Toaster />
     </div>
   );
 }

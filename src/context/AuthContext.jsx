@@ -1,10 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { PLATFORM } from "../types/contest";
-
+import toast from "react-hot-toast";
 export const AuthContext = createContext();
-// eslint-disable-next-line react-refresh/only-export-components
+
 export const useAuthContext = () => {
   return useContext(AuthContext);
 };
@@ -20,11 +19,9 @@ export const AuthContextProvider = ({ children }) => {
   const [reload, setReload] = useState(false);
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(false);
-  // const [likes, setLikes] = useState();
 
   useEffect(() => {
     const fetchdata = async () => {
-      console.log("i m reloading");
       await showPosts();
     };
     fetchdata();
@@ -47,7 +44,6 @@ export const AuthContextProvider = ({ children }) => {
     if (!success) return;
 
     setLoading(true);
-    console.log(`${import.meta.env.VITE_APP_URL}`);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_APP_URL}/api/auth/signup`,
@@ -77,10 +73,11 @@ export const AuthContextProvider = ({ children }) => {
       localStorage.setItem("jwt", JSON.stringify(data));
       setAuthUser(data);
       navigate("/add-profiles");
+      toast.success(data?.message); 
     } catch (error) {
-      console.error(error.message); // Display error message
+      toast.error(error?.message);
     } finally {
-      setLoading(false); // Always execute after request completion
+      setLoading(false);
     }
   };
   const login = async ({ username, password }) => {
@@ -107,10 +104,10 @@ export const AuthContextProvider = ({ children }) => {
       // console.log("data in login",data)
       localStorage.setItem("jwt", JSON.stringify(data));
       setAuthUser(data);
-
+      toast.success(data?.message);
       return data;
     } catch (error) {
-      console.error(error.message); // Show error message in the UI
+      toast.error(error.message); // Show error message in the UI
     } finally {
       setLoading(false); // Always execute after request completion
     }
@@ -134,9 +131,10 @@ export const AuthContextProvider = ({ children }) => {
       }
       if (data.success) localStorage.removeItem("jwt"); // Clear JWT from local storage
       setAuthUser(null);
+      toast.success(data?.message);
       navigate("/login");
     } catch (error) {
-      console.error(error.message); // Display error
+      toast.error(error.message); // Display error
     } finally {
       setLoading(false); // Manage loading state
     }
@@ -155,11 +153,10 @@ export const AuthContextProvider = ({ children }) => {
           withCredentials: true,
         }
       );
-      const data = await api?.data;
-      // console.log(data);
-      setReload(!reload);
+      toast.success(api?.data?.message);
+      // setReload(!reload);
     } catch (error) {
-      console.error(error.message);
+      toast.error(error?.message);
     } finally {
       setLoading(false);
     }
@@ -178,7 +175,8 @@ export const AuthContextProvider = ({ children }) => {
           withCredentials: true,
         }
       );
-      const data = api.data;
+      const data = api?.data;
+      // console.log(data)
       return data;
     } catch (error) {
       console.error(error.message);
@@ -188,7 +186,6 @@ export const AuthContextProvider = ({ children }) => {
   };
   const addPost = async (formData, id, qid) => {
     try {
-      
       setLoading(true); // Optional: Set loading state before making the request
       const res = await axios.post(
         `${import.meta.env.VITE_APP_URL}/api/post/add/${id}/${qid}`,
@@ -202,8 +199,8 @@ export const AuthContextProvider = ({ children }) => {
         }
       );
       setReload(!reload);
+      toast.success(res?.data?.message);
     } catch (error) {
-      console.error("error:", error);
       toast.error(error.message); // Show error message in the toast
     } finally {
       setLoading(false); // Always set loading to false, whether it succeeds or fails
@@ -224,8 +221,8 @@ export const AuthContextProvider = ({ children }) => {
         }
       );
       setReload(!reload);
+      toast(res?.data?.message)
     } catch (error) {
-      console.error(error);
       toast.error(error.message); // Show error message in the toast
     } finally {
       setLoading(false); // Always set loading to false, whether it succeeds or fails
@@ -245,11 +242,8 @@ export const AuthContextProvider = ({ children }) => {
         }
       );
 
-      // `response.data` contains the parsed JSON response
-      const data = response.data;
-      console.log("data: ", data); // Handle the response data as needed
     } catch (error) {
-      console.error(error); // Handle errors as needed
+      toast.error(error); 
     }
   };
   const showPosts = async () => {
@@ -397,22 +391,4 @@ function handleInputErrorssignup({
   }
 
   return true;
-}
-
-function convertTextToHTML(inputText) {
-  // Split the text by spaces or newlines
-  const parts = inputText.split(/ {2,}|\n+/);
-
-  // Map over the parts and convert each to a paragraph element
-  const htmlElements = parts.map((part) => {
-    // Trim to remove leading and trailing spaces
-    const trimmedPart = part.trim();
-    if (trimmedPart) {
-      return `<p>${trimmedPart}</p>`; // Wrap in paragraph tags
-    }
-    return ""; // Ignore empty parts
-  });
-
-  // Join the HTML elements and return the result
-  return htmlElements.join("\n");
 }
