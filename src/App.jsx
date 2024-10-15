@@ -27,7 +27,7 @@ import Loading from "./components/Smallcomps/Loading.jsx";
 
 function App() {
   const { authUser, posts, loadingposts } = useAuthContext();
-  // const { loading, error, contests, platforms, setPlatforms } = useContests();
+  const { loading, error, contests, platforms, setPlatforms } = useContests();
 
   const { theme, setThemeMode } = useTheme();
 
@@ -90,7 +90,7 @@ function App() {
           path="/settings"
           element={authUser ? <Settings /> : <Navigate to="/login" />}
         />
-        {/* <Route
+        <Route
           path="/contest"
           element={
             <>
@@ -107,11 +107,11 @@ function App() {
               )}
             </>
           }
-        /> */}
-        {/* Error Pages */}
+        />
+        
         <Route path="/question/:id" element={<Discusspage />} />
         <Route path="*" element={<Page404 />} />
-        <Route path="/error500" element={<Error500 />} /> {/* 500 error page */}
+        <Route path="/error500" element={<Error500 />} />
       </Routes>
       <Footer />
       <Toaster />
