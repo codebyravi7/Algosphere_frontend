@@ -40,38 +40,40 @@ const ContestList = ({ loading, error, contests }) => {
   );
 
   return (
-    <div className="pt-20 flex flex-col p-4 gap-4 w-full min-h-screen">
-      <div className="flex flex-col justify-between items-center mb-4 gap-4">
-        {loading && (
-          <span className="flex flex-row items-center justify-center font-semibold text-sm text-gray-800 dark:text-gray-200 gap-2 mb-2">
-            <p>Refreshing Contests</p>
-            <Loader />
-          </span>
-        )}
-        {error && contests.length === 0 && (
-          <span className="flex flex-col items-center justify-center font-semibold text-sm text-red-500 dark:text-red-400 text-center gap-2 mb-2">
-            <p>Unable to refresh contests!</p>
-            <p>Please check your internet connection.</p>
-          </span>
-        )}
-        <FilterMenu curFilter={filter} updateFilter={setFilter} />
-      </div>
+    <div className="pt-20 flex flex-col items-center p-4 gap-4 w-full min-h-screen">
+      <div className="max-w-7xl">
+        <div className="flex flex-col justify-between items-center mb-4 gap-8">
+          {loading && (
+            <span className="flex flex-row items-center justify-center font-semibold text-sm text-gray-800 dark:text-gray-200 gap-2 mb-2">
+              <p>Refreshing Contests</p>
+              <Loader />
+            </span>
+          )}
+          {error && contests.length === 0 && (
+            <span className="flex flex-col items-center justify-center font-semibold text-sm text-red-500 dark:text-red-400 text-center gap-2 mb-2">
+              <p>Unable to refresh contests!</p>
+              <p>Please check your internet connection.</p>
+            </span>
+          )}
+          <FilterMenu curFilter={filter} updateFilter={setFilter} />
+        </div>
 
-      {filteredContests.length > 0 ? (
-        <>
-          <h2 className="font-semibold text-sm text-gray-800 dark:text-gray-200 text-left">
-            {filteredContests.length} contest
-            {filteredContests.length > 1 && "s"} found
-          </h2>
-          {filteredContests.map((contest) => (
-            <Card contest={contest} key={contest.url} />
-          ))}
-        </>
-      ) : (
-        <h3 className="font-semibold text-sm text-gray-800 dark:text-gray-200 text-center">
-          {loading ? "Loading contests..." : "Oops! Looks like no contests!"}
-        </h3>
-      )}
+        {filteredContests.length > 0 ? (
+          <>
+            <h2 className="font-semibold text-sm text-gray-800 dark:text-gray-200 text-left">
+              {filteredContests.length} contest
+              {filteredContests.length > 1 && "s"} found
+            </h2>
+            {filteredContests.map((contest) => (
+              <Card contest={contest} key={contest.url} />
+            ))}
+          </>
+        ) : (
+          <h3 className="font-semibold text-sm text-gray-800 dark:text-gray-200 text-center">
+            {loading ? "Loading contests..." : "Oops! Looks like no contests!"}
+          </h3>
+        )}
+      </div>
     </div>
   );
 };

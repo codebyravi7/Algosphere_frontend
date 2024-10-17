@@ -36,7 +36,7 @@ const Card = ({ contest }) => {
       className="flex flex-col sm:flex-row items-center bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-md max-w-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300 ease-in-out overflow-hidden"
     >
       <img
-        className="object-cover w-full sm:w-16 h-16 sm:h-24 p-2 m-2"
+        className="object-cover w-32  h-16 sm:h-24 p-2 m-2"
         src={logoUrl}
         alt={contest?.site}
       />
@@ -55,7 +55,7 @@ const Card = ({ contest }) => {
         {currentStatus === STATUS.yetToStart && (
           <div className="mb-2 flex items-center justify-between gap-1">
             <span className="flex gap-1 items-center">
-              <i class="fa-solid fa-circle-dot"></i>
+              <i className="fa-solid fa-circle-dot"></i>
               <p className="mb-1 text-sm font-normal text-gray-600 dark:text-gray-200">
                 {getRemainingTime(contest?.startTime, curTime)}
               </p>
