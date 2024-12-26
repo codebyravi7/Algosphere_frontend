@@ -12,7 +12,6 @@ export const AuthContextProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState(
     JSON.parse(localStorage.getItem("jwt")) || null
   );
-  // console.log(authUser)
   const token = authUser?.token;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -21,14 +20,6 @@ export const AuthContextProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(false);
   const [friends, setFriends] = useState(authUser?.user?.friends);
-  console.log(friends)
-  useEffect(() => {
-    const fetchdata = async () => {
-      await showPosts();
-    };
-    fetchdata();
-  }, [token]);
-
   const signup = async ({
     fullName,
     username,
@@ -159,7 +150,9 @@ export const AuthContextProvider = ({ children }) => {
       // Update friends state
       if (areFriend(id)) {
         //filter out
-        setFriends((prevFriends) => prevFriends.filter((friendId) => friendId !== id));
+        setFriends((prevFriends) =>
+          prevFriends.filter((friendId) => friendId !== id)
+        );
       } else {
         setFriends((prevFriends) => [...prevFriends, id]);
       }
@@ -250,11 +243,14 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
-  const showPosts = async () => {
+  const showPosts = async (pageCount, limit) => {
     setLoadingPosts(true);
+    console.log(pageCount, limit);
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_APP_URL}/api/post/allposts`,
+        `${
+          import.meta.env.VITE_APP_URL
+        }/api/post/allposts?page=${pageCount}&limit=${limit}`,
         {
           headers: {
             "Content-Type": "Application/json",
@@ -265,13 +261,14 @@ export const AuthContextProvider = ({ children }) => {
       );
 
       const data = response?.data; // Axios parses the response automatically
-      setPosts(data?.allposts);
+      return data;
     } catch (error) {
       toast.error(error.message); // Display error message
     } finally {
       setLoadingPosts(false); // Always execute after request completion
     }
   };
+
   const showPost = async (id) => {
     setLoading(true);
     try {
@@ -345,6 +342,35 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
+  const sendNotification = async (title, startTime, link) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_APP_URL}/api/email`,
+        {
+          email: "2021021059@mmmut.ac.in",
+          contestTitle: title,
+          contestStartTime: startTime,
+          link: link,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Auth: token,
+          },
+          withCredentials: true,
+        }
+      );
+
+      if (response?.data?.success) {
+        console.log("Email notification scheduled successfully.");
+      } else {
+        console.error("Failed to schedule email notification.");
+      }
+    } catch (error) {
+      console.error("Error scheduling email:", error);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -365,8 +391,8 @@ export const AuthContextProvider = ({ children }) => {
         showPost,
         handleAddComment,
         handleDelete,
-        posts,
-        friends
+        friends,
+        sendNotification,
       }}
     >
       {children}

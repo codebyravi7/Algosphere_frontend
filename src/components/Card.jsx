@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import { useAuthContext } from "../context/AuthContext";
+import { BellPlus, CircleCheckBig } from "lucide-react";
 
 const STATUS = {
   ongoing: "Ongoing",
@@ -17,64 +19,84 @@ const platformLogos = {
 };
 
 const Card = ({ contest }) => {
+  const { sendNotification } = useAuthContext();
   const startDate = new Date(contest?.startTime);
   const endDate = new Date(contest?.endTime);
   const logoUrl = platformLogos[contest?.site] || "images/default-logo.png";
 
   const [curTime, setCurTime] = useState(new Date());
+  const [notify, setNotify] = useState(false);
 
   let currentStatus = STATUS.yetToStart;
   if (curTime > endDate) currentStatus = STATUS.ended;
   else if (curTime >= startDate && curTime <= endDate)
     currentStatus = STATUS.ongoing;
 
+  const handleNotifyClick = async (title, startTime, link) => {
+    setNotify(true);
+    await sendNotification(title, startTime, link);
+  };
   return (
-    <a
-      href={contest?.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="flex flex-col sm:flex-row items-center bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-md max-w-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300 ease-in-out overflow-hidden"
-    >
-      <img
-        className="object-cover w-32  h-16 sm:h-24 p-2 m-2"
-        src={logoUrl}
-        alt={contest?.site}
-      />
-      <div className="flex flex-col justify-between p-4 leading-normal w-full">
-        <h5 className="mb-1 text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-          {`${contest?.site} - ${contest?.title}`}
-        </h5>
+    <div className="flex p-1 border-b-4 border-x-2 rounded-b-3xl">
+      <a
+        href={contest?.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex flex-col sm:flex-row items-center w-full"
+      >
+        <img
+          className="object-cover w-32 h-16 sm:h-24 p-2 m-2"
+          src={logoUrl}
+          alt={contest?.site}
+        />
+        <div className="flex flex-col justify-between p-4 leading-normal w-full">
+          <h5 className="mb-1 text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+            {`${contest?.site} - ${contest?.title}`}
+          </h5>
 
-        {/* Status Indicator */}
-        {currentStatus === STATUS.ended && (
-          <StatusIndicator color="text-red-600" status={STATUS.ended} />
-        )}
-        {currentStatus === STATUS.ongoing && (
-          <StatusIndicator color="text-green-500" status={STATUS.ongoing} />
-        )}
-        {currentStatus === STATUS.yetToStart && (
-          <div className="mb-2 flex items-center justify-between gap-1">
-            <span className="flex gap-1 items-center">
-              <i className="fa-solid fa-circle-dot"></i>
-              <p className="mb-1 text-sm font-normal text-gray-600 dark:text-gray-200">
-                {getRemainingTime(contest?.startTime, curTime)}
-              </p>
-            </span>
-          </div>
-        )}
+          {/* Status Indicator */}
+          {currentStatus === STATUS.ended && (
+            <StatusIndicator color="text-red-600" status={STATUS.ended} />
+          )}
+          {currentStatus === STATUS.ongoing && (
+            <StatusIndicator color="text-green-500" status={STATUS.ongoing} />
+          )}
+          {currentStatus === STATUS.yetToStart && (
+            <div className="mb-2 flex items-center justify-between gap-1">
+              <span className="flex gap-1 items-center">
+                <i className="fa-solid fa-circle-dot"></i>
+                <p className="mb-1 text-sm font-normal text-gray-600 dark:text-gray-200">
+                  {getRemainingTime(contest?.startTime, curTime)}
+                </p>
+              </span>
+            </div>
+          )}
 
-        {/* Start & End Times */}
-        <p className="mb-1 text-sm sm:text-md font-normal text-gray-700 dark:text-gray-100">
-          {`Starts at ${formatDate(startDate)}`}
-        </p>
-        <p className="mb-2 text-sm sm:text-md font-normal text-gray-700 dark:text-gray-100">
-          {`Ends at ${formatDate(endDate)}`}
-        </p>
-        <p className="mb-2 text-sm sm:text-md font-normal text-gray-700 dark:text-gray-100">
-          {`Duration (in mins): ${contest?.duration}`}
-        </p>
-      </div>
-    </a>
+          {/* Start & End Times */}
+          <p className="mb-1 text-sm sm:text-md font-normal text-gray-700 dark:text-gray-100">
+            {`Starts at ${formatDate(startDate)}`}
+          </p>
+          <p className="mb-2 text-sm sm:text-md font-normal text-gray-700 dark:text-gray-100">
+            {`Ends at ${formatDate(endDate)}`}
+          </p>
+          <p className="mb-2 text-sm sm:text-md font-normal text-gray-700 dark:text-gray-100">
+            {`Duration (in mins): ${contest?.duration}`}
+          </p>
+        </div>
+      </a>
+
+      {/* Notify Me Button */}
+      <button
+        onClick={() =>
+          handleNotifyClick(contest?.title, contest?.startTime, contest?.url)
+        }
+        className={`h-14 my-auto mr-4 px-4 py-2 ${
+          notify ? "bg-green-400" : "bg-gray-700"
+        } text-white rounded-md hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-colors duration-300 flex items-center justify-center`}
+      >
+        {!notify ? <BellPlus className="w-5 h-5" /> : <CircleCheckBig />}
+      </button>
+    </div>
   );
 };
 

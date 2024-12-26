@@ -65,7 +65,7 @@ const ContestList = ({ loading, error, contests }) => {
               {filteredContests.length > 1 && "s"} found
             </h2>
             {filteredContests.map((contest) => (
-              <Card contest={contest} key={contest.url} />
+              <Card contest={contest} key={contest?.url} />
             ))}
           </>
         ) : (

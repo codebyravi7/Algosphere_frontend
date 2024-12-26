@@ -26,8 +26,8 @@ import Loading from "./components/Smallcomps/Loading.jsx";
 // axios.defaults.baseURL = "http://localhost:5000/api";
 
 function App() {
-  const { authUser, posts, loadingposts } = useAuthContext();
-  const { loading, error, contests, platforms, setPlatforms } = useContests();
+  const { authUser } = useAuthContext();
+  const { loading, error, contests } = useContests();
 
   const { theme, setThemeMode } = useTheme();
 
@@ -40,17 +40,7 @@ function App() {
           path="/"
           element={
             // authUser ? <h1 className="text-4xl pt-40">Hii</h1> : <Navigate to="/login" />
-            authUser ? (
-              <>
-                {loadingposts ? (
-                  <Loading title="Posts" />
-                ) : (
-                  <Homepage posts={posts} />
-                )}
-              </>
-            ) : (
-              <Navigate to="/login" />
-            )
+            authUser ? <Homepage /> : <Navigate to="/login" />
           }
         />
         <Route
@@ -108,7 +98,7 @@ function App() {
             </>
           }
         />
-        
+
         <Route path="/question/:id" element={<Discusspage />} />
         <Route path="*" element={<Page404 />} />
         <Route path="/error500" element={<Error500 />} />
