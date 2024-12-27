@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, Outlet } from "react-router-dom";
 import Topbar from "./components/topbar/Topbar.jsx";
 import Homepage from "./pages/homepage/Homepage";
 import Login from "./pages/login/Login";
@@ -12,23 +12,20 @@ import EditPost from "./pages/edit/Editpost";
 import SearchedBlog from "./pages/searchPage/Search";
 import Footer from "./components/Footer";
 import Page404 from "./pages/Page404";
-import Error500 from "./pages/Error500"; // Your 500 error page
 import ContestList from "./components/ContestList";
 import { Toaster } from "react-hot-toast";
-
-import { useEffect, useState } from "react";
-import UserProfile from "./pages/UserProfile";
-import useContests from "./hooks/useContests.js";
-import useTheme from "./hooks/useTheme.js";
 import AddProfile from "./pages/AddProfiles.jsx";
 import Discusspage from "./pages/Discusspage.jsx";
-import Loading from "./components/Smallcomps/Loading.jsx";
-// axios.defaults.baseURL = "http://localhost:5000/api";
+import UserProfile from "./pages/UserProfile";
+import useTheme from "./hooks/useTheme.js";
+
+// ProtectedRoute Component
+function ProtectedRoute() {
+  const { authUser } = useAuthContext();
+  return authUser ? <Outlet /> : <Navigate to="/login" />;
+}
 
 function App() {
-  const { authUser } = useAuthContext();
-  const { loading, error, contests } = useContests();
-
   const { theme, setThemeMode } = useTheme();
 
   return (
@@ -36,73 +33,27 @@ function App() {
       <Topbar theme={theme} setThemeMode={setThemeMode} />
 
       <Routes>
-        <Route
-          path="/"
-          element={
-            // authUser ? <h1 className="text-4xl pt-40">Hii</h1> : <Navigate to="/login" />
-            authUser ? <Homepage /> : <Navigate to="/login" />
-          }
-        />
-        <Route
-          path="/login"
-          element={authUser ? <Navigate to="/" /> : <Login />}
-        />
-        <Route
-          path="/register"
-          element={authUser ? <Navigate to="/" /> : <Register />}
-        />
-        <Route
-          path="/add-profiles"
-          element={authUser ? <AddProfile /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/search/blog"
-          element={authUser ? <SearchedBlog /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/post/:id"
-          element={authUser ? <Single /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/write/:id/:qid"
-          element={authUser ? <Write /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/code"
-          element={authUser ? <QuesList /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/edit-post/:id"
-          element={authUser ? <EditPost /> : <Navigate to="/login" />}
-        />
+        {/* Public Routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/:id/profile" element={<UserProfile />} />
-        <Route
-          path="/settings"
-          element={authUser ? <Settings /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/contest"
-          element={
-            <>
-              {loading && <Loading title="Contests" />}
 
-              {error && <p className="text-center text-red-600">{error}</p>}
-
-              {!loading && (
-                <ContestList
-                  loading={loading}
-                  error={error}
-                  contests={contests}
-                />
-              )}
-            </>
-          }
-        />
-
-        <Route path="/question/:id" element={<Discusspage />} />
+        {/* Protected Routes Group */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<Homepage />} />
+          <Route path="/contest" element={<ContestList />} />
+          <Route path="/add-profiles" element={<AddProfile />} />
+          <Route path="/search/blog" element={<SearchedBlog />} />
+          <Route path="/code" element={<QuesList />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/question/:id" element={<Discusspage />} />
+          <Route path="/post/:id" element={<Single />} />
+          <Route path="/write/:id/:qid" element={<Write />} />
+          <Route path="/edit-post/:id" element={<EditPost />} />
+        </Route>
         <Route path="*" element={<Page404 />} />
-        <Route path="/error500" element={<Error500 />} />
       </Routes>
+
       <Footer />
       <Toaster />
     </div>

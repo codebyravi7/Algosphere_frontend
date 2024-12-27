@@ -1,10 +1,12 @@
 import { useState, useMemo } from "react";
 import Card from "./Card";
-import Loader from "./Loader";
 import FilterMenu from "./FilterMenu";
+import useContest from "../hooks/useContests.js";
+import Loading from "./Smallcomps/Loading";
 
-const ContestList = ({ loading, error, contests }) => {
+const ContestList = () => {
   const [filter, setFilter] = useState("All");
+  const { loading, error, contests } = useContest();
 
   const now = new Date();
   const next24hrs = new Date(now.getTime() + 24 * 60 * 60 * 1000);
@@ -43,11 +45,8 @@ const ContestList = ({ loading, error, contests }) => {
     <div className="pt-20 flex flex-col items-center p-4 gap-4 w-full min-h-screen">
       <div className="max-w-7xl">
         <div className="flex flex-col justify-between items-center mb-4 gap-8">
-          {loading && (
-            <span className="flex flex-row items-center justify-center font-semibold text-sm text-gray-800 dark:text-gray-200 gap-2 mb-2">
-              <p>Refreshing Contests</p>
-              <Loader />
-            </span>
+          {loading && contests.length == 0 && (
+            <Loading title={"Wait while we are loading contest"} />
           )}
           {error && contests.length === 0 && (
             <span className="flex flex-col items-center justify-center font-semibold text-sm text-red-500 dark:text-red-400 text-center gap-2 mb-2">

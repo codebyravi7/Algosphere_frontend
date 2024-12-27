@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import GenderCheckbox from "./GenderCheckbox";
 import { useAuthContext } from "../../context/AuthContext";
 import logo from "../../../public/logo.png";
 import registerImage from "../../../public/login1.png"; // Assuming a registration image
@@ -17,8 +16,13 @@ export default function Register() {
   const { loading, signup } = useAuthContext();
   const [isAccepted, setIsAccepted] = useState(false);
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setInputs((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleCheckboxChange = (gender) => {
-    setInputs({ ...inputs, gender });
+    setInputs((prev) => ({ ...prev, gender }));
   };
 
   const handleSubmit = async (e) => {
@@ -47,7 +51,6 @@ export default function Register() {
               one place!
             </p>
           </div>
-          {/* Placeholder Image */}
           <div className="mt-8">
             <img
               src={registerImage}
@@ -58,92 +61,82 @@ export default function Register() {
         </div>
 
         {/* Form Section */}
-        <form className="bg-gray-50 dark:bg-gray-900 dark:text-white w-full md:w-2/3 p-8 md:px-16" onSubmit={handleSubmit}>
+        <form
+          className="bg-gray-50 dark:bg-gray-900 dark:text-white w-full md:w-2/3 p-8 md:px-16"
+          onSubmit={handleSubmit}
+        >
           <div className="mb-8 flex space-x-4 justify-center">
             <img src={logo} alt="BeLieve" className="h-8 w-auto" />
           </div>
 
           {/* Inputs */}
           <div className="space-y-6">
-            <div>
-              <label className="text-sm mb-2 block">Name</label>
-              <div className="relative">
-                <input
-                  name="fullName"
-                  type="text"
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="Enter your name"
-                  value={inputs.fullName}
-                  onChange={(e) =>
-                    setInputs({ ...inputs, fullName: e.target.value })
-                  }
-                />
+            {[
+              {
+                label: "Name",
+                name: "fullName",
+                type: "text",
+                placeholder: "Enter your name",
+              },
+              {
+                label: "Email",
+                name: "email",
+                type: "text",
+                placeholder: "Enter your email",
+              },
+              {
+                label: "Password",
+                name: "password",
+                type: "password",
+                placeholder: "Enter your password",
+              },
+              {
+                label: "Confirm Password",
+                name: "confirmPassword",
+                type: "password",
+                placeholder: "Confirm your password",
+              },
+            ].map(({ label, name, type, placeholder }) => (
+              <div key={name}>
+                <label className="text-sm mb-2 block">{label}</label>
+                <div className="relative">
+                  <input
+                    name={name}
+                    type={type}
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    placeholder={placeholder}
+                    value={inputs[name]}
+                    onChange={handleInputChange}
+                  />
+                </div>
               </div>
-            </div>
-
-            <div>
-              <label className="text-sm mb-2 block">
-                Email
-              </label>
-              <div className="relative">
-                <input
-                  name="email"
-                  type="text"
-                  required
-                  className="w-full px-4 py-3  border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="Enter your email"
-                  value={inputs.email}
-                  onChange={(e) =>
-                    setInputs({ ...inputs, email: e.target.value })
-                  }
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="text-sm mb-2 block">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  name="password"
-                  type="password"
-                  required
-                  className="w-full px-4 py-3  border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="Enter your password"
-                  value={inputs.password}
-                  onChange={(e) =>
-                    setInputs({ ...inputs, password: e.target.value })
-                  }
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="text-sm mb-2 block">
-                Confirm Password
-              </label>
-              <div className="relative">
-                <input
-                  name="confirmPassword"
-                  type="password"
-                  required
-                  className="w-full px-4 py-3  border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="Confirm your password"
-                  value={inputs.confirmPassword}
-                  onChange={(e) =>
-                    setInputs({ ...inputs, confirmPassword: e.target.value })
-                  }
-                />
-              </div>
-            </div>
+            ))}
 
             {/* Gender Selection */}
-            <GenderCheckbox
-              onCheckboxChange={handleCheckboxChange}
-              selectedGender={inputs.gender}
-            />
+            <div className="flex">
+              {[
+                { label: "Male", value: "male" },
+                { label: "Female", value: "female" },
+              ].map(({ label, value }) => (
+                <div className="form-control mr-10" key={value}>
+                  <label
+                    className={`label gap-2 cursor-pointer ${
+                      inputs.gender === value ? "selected" : ""
+                    }`}
+                  >
+                    <span className="label-text mr-2">{label}</span>
+                    <input
+                      type="checkbox"
+                      className="checkbox border-slate-900"
+                      checked={inputs.gender === value}
+                      onChange={() => handleCheckboxChange(value)}
+                    />
+                  </label>
+                </div>
+              ))}
+            </div>
+
             <div className="flex items-center space-x-2">
               <input
                 type="checkbox"
@@ -164,17 +157,22 @@ export default function Register() {
           {/* Submit Button */}
           <div className="mt-8">
             <button
-              type="submit"
-              className="w-full py-3 px-4 text-sm font-semibold rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              disabled={loading}
+              className={`w-full py-3 px-4 text-sm font-semibold rounded-md text-white focus:outline-none focus:ring-2 focus:ring-gray-600
+              ${
+                loading
+                  ? "bg-gray-500 cursor-wait"
+                  : "bg-gray-800 hover:bg-gray-900"
+              }`}
             >
-              Create Your Account
+              {loading ? "Loading..." : "Create your Account"}
             </button>
           </div>
 
           <p className="text-gray-600 text-sm mt-4 text-center">
             Already have an account?{" "}
             <Link
-              to={"/login"}
+              to="/login"
               className="text-blue-600 font-semibold hover:underline"
             >
               Log in here.

@@ -94,19 +94,23 @@ export default function Login() {
           {/* Buttons */}
           <div className="mt-8">
             <button
-              type="submit"
-              className="w-full py-3 px-4 text-sm font-semibold rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              disabled={loading}
+              className={`w-full py-3 px-4 text-sm font-semibold rounded-md text-white focus:outline-none focus:ring-2 focus:ring-gray-600
+    ${loading ? "bg-gray-500 cursor-wait" : "bg-gray-800 hover:bg-gray-900"}`}
+              onClick={handleSubmit}
             >
-              Log in to your Account
+              {loading ? "Loading..." : "Log in to Demo Account"}
             </button>
           </div>
 
           <div className="mt-4">
             <button
-              className="w-full py-3 px-4 text-sm font-semibold rounded-md text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-600"
+              disabled={loading}
+              className={`w-full py-3 px-4 text-sm font-semibold rounded-md text-white focus:outline-none focus:ring-2 focus:ring-gray-600
+    ${loading ? "bg-gray-500 cursor-wait" : "bg-gray-800 hover:bg-gray-900"}`}
               onClick={handleDemo}
             >
-              Log in to Demo Account
+              {loading ? "Loading..." : "Log in to Demo Account"}
             </button>
           </div>
 

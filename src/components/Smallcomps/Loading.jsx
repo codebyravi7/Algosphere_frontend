@@ -10,7 +10,7 @@ const Loading = ({title}) => {
         <span></span>
       </div>
       <p className="text-3xl font-[cursive] text-center text-gray-600">
-        {title} are loading...
+        {title}
       </p>
     </div>
   );

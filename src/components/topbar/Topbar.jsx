@@ -29,7 +29,6 @@ export default function Topbar({ theme, setThemeMode }) {
   const navigate = useNavigate();
   const { authUser, token, logout } = useAuthContext();
   const [inputValue, setInputValue] = useState("");
-  const [posts, setPosts] = useState([]);
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -53,7 +52,7 @@ export default function Topbar({ theme, setThemeMode }) {
           withCredentials: true,
         }
       );
-      setPosts(api?.data?.posts);
+      const posts = api?.data?.posts
       setInputValue("");
       navigate("/search/blog", {
         state: { posts },

@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
-import Posts from "../../components/posts/Posts";
 import Loading from "../../components/Smallcomps/Loading";
 import { useAuthContext } from "../../context/AuthContext";
 import InfiniteScroll from "react-infinite-scroll-component";
+import Showposts from "../../components/showposts/Showposts";
 
 export default function Homepage() {
-  const { showPosts, loadingposts } = useAuthContext();
+  const { showPosts } = useAuthContext();
   const [posts, setPosts] = useState([]);
   const [pageCount, setPageCount] = useState(1);
   const [total, setTotal] = useState(0);
 
   const fetchData = async () => {
-    console.log("pageno:", pageCount);
     const res = await showPosts(pageCount, 6);
     setPageCount(pageCount + 1);
     setPosts((prevPosts) => [...prevPosts, ...(res?.allposts || [])]);
@@ -25,19 +24,15 @@ export default function Homepage() {
       dataLength={posts?.length}
       next={fetchData}
       hasMore={posts?.length < total}
-      loader={<Loading />}
+      loader={<Loading title={"Wait while we are loading"} />}
       endMessage={
-        <p>
-          <b>Yay! You have seen it all!</b>
-        </p>
+        <div className="text-center">
+          <h2>Yay! You have seen it all!</h2>
+        </div>
       }
     >
-      <div className="home w-screen bg-gray-50 text-black dark:bg-gray-700">
-        <div className="flex min-h-screen w-screen">
-          <div className="posts flex-grow overflow-y-auto hide-scrollbar">
-            <Posts posts={posts} />
-          </div>
-        </div>
+      <div className="pt-16">
+        <Showposts posts={posts} />
       </div>
     </InfiniteScroll>
   );
