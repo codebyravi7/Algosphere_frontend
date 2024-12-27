@@ -8,7 +8,7 @@ import registerImage from "../../../public/login1.png"; // Assuming a registrati
 export default function Register() {
   const [inputs, setInputs] = useState({
     fullName: "",
-    username: "",
+    email: "",
     password: "",
     confirmPassword: "",
     gender: "",
@@ -84,18 +84,18 @@ export default function Register() {
 
             <div>
               <label className="text-sm mb-2 block">
-                Username
+                Email
               </label>
               <div className="relative">
                 <input
-                  name="username"
+                  name="email"
                   type="text"
                   required
                   className="w-full px-4 py-3  border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="Enter your username"
-                  value={inputs.username}
+                  placeholder="Enter your email"
+                  value={inputs.email}
                   onChange={(e) =>
-                    setInputs({ ...inputs, username: e.target.value })
+                    setInputs({ ...inputs, email: e.target.value })
                   }
                 />
               </div>

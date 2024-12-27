@@ -15,9 +15,22 @@ export default function Write() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check if the file format is valid
+    if (file) {
+      const validFormats = ["image/png", "image/jpg"];
+      if (!validFormats.includes(file.type)) {
+        alert("Only PNG and JPG formats are allowed.");
+        setFile(null);
+        return;
+      }
+    }
+
     formdata.append("title", title);
     formdata.append("description", description);
     if (file) formdata.append("file", file);
+    console.log(file);
+
     await addPost(formdata, id, qid);
     setTitle("");
     setDescription("");

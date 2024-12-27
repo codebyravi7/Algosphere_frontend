@@ -5,7 +5,7 @@ import logo from "../../../public/logo.png";
 import loginImage from "../../../public/login1.png";
 export default function Login() {
   const [inputs, setInputs] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -16,7 +16,7 @@ export default function Login() {
   };
   const handleDemo = async (e) => {
     e.preventDefault();
-    await login({ username: "ravikant", password: "123456" });
+    await login({ email: "ravikant", password: "123456" });
   };
 
   return (
@@ -57,17 +57,17 @@ export default function Login() {
           {/* Inputs */}
           <div className="space-y-6">
             <div>
-              <label className=" text-sm mb-2 block">Username</label>
+              <label className=" text-sm mb-2 block">email</label>
               <div className="relative">
                 <input
-                  name="username"
+                  name="email"
                   type="text"
                   required
                   className=" w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="Enter username"
-                  value={inputs.username}
+                  placeholder="Enter email"
+                  value={inputs.email}
                   onChange={(e) =>
-                    setInputs({ ...inputs, username: e.target.value })
+                    setInputs({ ...inputs, email: e.target.value })
                   }
                 />
               </div>

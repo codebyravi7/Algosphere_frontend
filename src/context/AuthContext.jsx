@@ -22,14 +22,14 @@ export const AuthContextProvider = ({ children }) => {
   const [friends, setFriends] = useState(authUser?.user?.friends);
   const signup = async ({
     fullName,
-    username,
+    email,
     password,
     confirmPassword,
     gender,
   }) => {
     const success = handleInputErrorssignup({
       fullName,
-      username,
+      email,
       password,
       confirmPassword,
       gender,
@@ -42,7 +42,7 @@ export const AuthContextProvider = ({ children }) => {
         `${import.meta.env.VITE_APP_URL}/api/auth/signup`,
         {
           fullName,
-          username,
+          email,
           password,
           confirmPassword,
           gender,
@@ -73,8 +73,8 @@ export const AuthContextProvider = ({ children }) => {
       setLoading(false);
     }
   };
-  const login = async ({ username, password }) => {
-    if (!username || !password) {
+  const login = async ({ email, password }) => {
+    if (!email || !password) {
       alert("Please fill in all fields");
       return;
     }
@@ -82,7 +82,7 @@ export const AuthContextProvider = ({ children }) => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_APP_URL}/api/auth/login`,
-        { username, password }, // Data to send in the body
+        { email, password }, // Data to send in the body
         {
           withCredentials: true,
         }
@@ -401,12 +401,12 @@ export const AuthContextProvider = ({ children }) => {
 };
 function handleInputErrorssignup({
   fullName,
-  username,
+  email,
   password,
   confirmPassword,
   gender,
 }) {
-  if (!fullName || !username || !password || !confirmPassword || !gender) {
+  if (!fullName || !email || !password || !confirmPassword || !gender) {
     console.error("Please fill in all fields");
     return false;
   }

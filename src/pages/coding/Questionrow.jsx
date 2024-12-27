@@ -62,17 +62,20 @@ function Questionrow({ question }) {
           onChange={handleCheckboxChange}
           className="mr-4 cursor-pointer"
         />
-        <Link
+        <a
           className="text-lg font-semibold hover:text-blue-600 hover:underline transition duration-300"
-          to={question.link_lt}
+          href={question.link_lt}
+          target="_blank"
+          rel="noopener noreferrer"
         >
           {question.title}
-        </Link>
+        </a>
       </div>
       <div className="flex items-center space-x-4">
-        <Link to={question.link_yt}>
+        <a href={question.link_yt} target="_blank" rel="noopener noreferrer">
           <i className="fa-brands fa-youtube text-red-600 hover:scale-110 transition duration-300"></i>
-        </Link>
+        </a>
+
         <Link to={`/write/notes/${question._id}`}>
           <i className="fa-solid fa-plus text-gray-800 hover:text-green-600 transition duration-300"></i>
         </Link>
