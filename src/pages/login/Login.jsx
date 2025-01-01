@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
 import { useState } from "react";
 import logo from "../../../public/logo.png";
@@ -8,15 +8,17 @@ export default function Login() {
     email: "",
     password: "",
   });
-
+  const navigate = useNavigate();
   const { loading, login } = useAuthContext();
   const handleSubmit = async (e) => {
     e.preventDefault();
     await login(inputs);
+    navigate("/");
   };
   const handleDemo = async (e) => {
     e.preventDefault();
     await login({ email: "ravidreamer7@gmail.com", password: "123456" });
+    navigate("/");
   };
 
   return (
