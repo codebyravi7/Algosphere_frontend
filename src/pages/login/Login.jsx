@@ -16,7 +16,7 @@ export default function Login() {
   };
   const handleDemo = async (e) => {
     e.preventDefault();
-    await login({ email: "ravikant", password: "123456" });
+    await login({ email: "ravidreamer7@gmail.com", password: "123456" });
   };
 
   return (
@@ -99,7 +99,7 @@ export default function Login() {
     ${loading ? "bg-gray-500 cursor-wait" : "bg-gray-800 hover:bg-gray-900"}`}
               onClick={handleSubmit}
             >
-              {loading ? "Loading..." : "Log in to Demo Account"}
+              {loading ? "Loading..." : "Log in to your Account"}
             </button>
           </div>
 
@@ -107,10 +107,10 @@ export default function Login() {
             <button
               disabled={loading}
               className={`w-full py-3 px-4 text-sm font-semibold rounded-md text-white focus:outline-none focus:ring-2 focus:ring-gray-600
-    ${loading ? "bg-gray-500 cursor-wait" : "bg-gray-800 hover:bg-gray-900"}`}
+    ${loading ? "bg-gray-500 cursor-wait" : "bg-green-600 hover:bg-green-900"}`}
               onClick={handleDemo}
             >
-              {loading ? "Loading..." : "Log in to Demo Account"}
+              {loading ? "Loading..." : "Use Demo Account"}
             </button>
           </div>
 
