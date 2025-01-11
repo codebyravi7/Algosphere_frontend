@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuthContext } from "../../context/AuthContext";
 import logo from "../../../public/logo.png";
@@ -13,6 +13,7 @@ export default function Register() {
     gender: "",
   });
 
+  const navigate = useNavigate();
   const { loading, signup } = useAuthContext();
   const [isAccepted, setIsAccepted] = useState(false);
 
