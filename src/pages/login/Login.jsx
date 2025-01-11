@@ -4,12 +4,15 @@ import { useState } from "react";
 import logo from "../../../public/logo.png";
 import loginImage from "../../../public/login1.png";
 export default function Login() {
+  const navigate = useNavigate();
+  const { loading, login } = useAuthContext();
+
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
   });
-  const navigate = useNavigate();
-  const { loading, login } = useAuthContext();
+  
+  /*Action-functions*/
   const handleSubmit = async (e) => {
     e.preventDefault();
     await login(inputs);

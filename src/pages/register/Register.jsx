@@ -29,6 +29,7 @@ export default function Register() {
     e.preventDefault();
     if (isAccepted) {
       await signup(inputs);
+      navigate("/add-profiles");
     } else {
       alert("Please accept the terms and conditions");
     }
@@ -122,7 +123,7 @@ export default function Register() {
                 <div className="form-control mr-10" key={value}>
                   <label
                     className={`label gap-2 cursor-pointer ${
-                      inputs.gender === value ? "selected" : ""
+                      inputs.gender === value ? "text-blue-800" : ""
                     }`}
                   >
                     <span className="label-text mr-2">{label}</span>
@@ -147,7 +148,10 @@ export default function Register() {
               />
               <label htmlFor="terms" className="text-gray-600 text-sm">
                 I accept the{" "}
-                <Link to="/terms" className="text-blue-600 font-semibold">
+                <Link
+                  to="/terms"
+                  className="text-blue-600 font-semibold italic"
+                >
                   terms and conditions
                 </Link>
               </label>
@@ -162,7 +166,7 @@ export default function Register() {
               ${
                 loading
                   ? "bg-gray-500 cursor-wait"
-                  : "bg-gray-800 hover:bg-gray-900"
+                  : "bg-gray-600 hover:bg-gray-700"
               }`}
             >
               {loading ? "Loading..." : "Create your Account"}

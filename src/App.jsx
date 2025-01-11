@@ -18,6 +18,7 @@ import AddProfile from "./pages/AddProfiles.jsx";
 import Discusspage from "./pages/Discusspage.jsx";
 import UserProfile from "./pages/UserProfile";
 import useTheme from "./hooks/useTheme.js";
+import TermsAndConditions from "./pages/Anonymous/Terms.jsx";
 
 // ProtectedRoute Component
 function ProtectedRoute() {
@@ -35,6 +36,7 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/login" element={<Login />} />
+        <Route path="/terms" element={<TermsAndConditions />} />
         <Route path="/register" element={<Register />} />
         <Route path="/:id/profile" element={<UserProfile />} />
 

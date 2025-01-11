@@ -13,10 +13,10 @@ export const AuthContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("jwt")) || null
   );
   const token = authUser?.token;
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [loadingposts, setLoadingPosts] = useState(false);
-  // const [reload, setReload] = useState(false);
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(false);
   const [friends, setFriends] = useState(authUser?.user?.friends);
@@ -65,7 +65,6 @@ export const AuthContextProvider = ({ children }) => {
       // Save user data to local storage and update authentication state
       localStorage.setItem("jwt", JSON.stringify(data));
       setAuthUser(data);
-      navigate("/add-profiles");
       toast.success(data?.message);
     } catch (error) {
       toast.error(error?.message);
@@ -399,6 +398,9 @@ export const AuthContextProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+
+/*utility functions */
 function handleInputErrorssignup({
   fullName,
   email,
@@ -407,17 +409,17 @@ function handleInputErrorssignup({
   gender,
 }) {
   if (!fullName || !email || !password || !confirmPassword || !gender) {
-    console.error("Please fill in all fields");
+    alert("Please fill in all fields");
     return false;
   }
 
   if (password !== confirmPassword) {
-    console.error("Passwords do not match");
+    alert("Passwords do not match");
     return false;
   }
 
   if (password.length < 6) {
-    console.error("Password must be at least 6 characters");
+    alert("Password must be at least 6 characters");
     return false;
   }
 
