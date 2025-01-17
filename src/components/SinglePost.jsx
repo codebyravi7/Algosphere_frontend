@@ -1,19 +1,17 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
-import axios from "axios";
 import { useState } from "react";
 import Button from "./Smallcomps/Button";
-export default function SinglePost(post) {
-  const post1 = post?.post;
+export default function SinglePost({ post }) {
   const { authUser, token, loading, error, handleAddComment, handleDelete } =
     useAuthContext();
   const navigate = useNavigate();
   const [comment, setComment] = useState("");
 
-  const comments = post1?.comments || [];
+  const comments = post?.comments || [];
 
   const handleDeletePost = async () => {
-    await handleDelete({ id: post1?._id });
+    await handleDelete({ id: post?._id });
   };
 
   const handleComment = async (e) => {
@@ -21,19 +19,19 @@ export default function SinglePost(post) {
     console.log(comment);
     comments.unshift({ _id: Date.now(), user: authUser, content: comment });
     setComment("");
-    await handleAddComment({ comment, id: post1?._id });
+    await handleAddComment({ comment, id: post?._id });
   };
 
   return (
     <div className="text-black dark:text-white shadow-lg  bg-gray-50 dark:bg-gray-800 pt-20 mx-auto max-w-7xl px-4 ">
       <h1 className="text-center text-3xl font-bold font-lora">
-        {post1?.title}
+        {post?.title}
       </h1>
       <div className="">
         <img
           className="h-96 w-auto m-auto border-2 border-gray-600 rounded-xl"
-          src={post1?.image?.url}
-          alt={post1?.title}
+          src={post?.image?.url}
+          alt={post?.title}
         />
       </div>
 
@@ -44,24 +42,24 @@ export default function SinglePost(post) {
             <b>
               <Link
                 className="text-blue-600 hover:text-blue-800"
-                to={`/${post1?.user?._id}/profile`}
+                to={`/${post?.user?._id}/profile`}
               >
-                {post1?.user?.fullName}
+                {post?.user?.fullName}
               </Link>
             </b>
           </span>
           <span className="ml-2">1 day ago</span>
         </div>
         <div className="buttons">
-          {post1?.user?._id === authUser._id && (
+          {post?.user?._id === authUser._id && (
             <div className="flex justify-end gap-3">
               <button
                 onClick={() =>
-                  navigate(`/edit-post/${post1?._id}`, {
+                  navigate(`/edit-post/${post?._id}`, {
                     state: {
-                      prevtitle: post1?.title,
-                      prevdescription: post1?.description,
-                      previmage: post1?.image,
+                      prevtitle: post?.title,
+                      prevdescription: post?.description,
+                      previmage: post?.image,
                     },
                   })
                 }
@@ -81,7 +79,7 @@ export default function SinglePost(post) {
         </div>
       </div>
 
-      <p className="leading-7">{post1?.description}</p>
+      <p className="leading-7">{post?.description}</p>
 
       {/* Comment section */}
       <div className="comment-box">
