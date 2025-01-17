@@ -10,11 +10,11 @@ import Button from "../../components/Smallcomps/Button";
 function UserProfile() {
   const { token,authUser } = useAuthContext();
   const { id } = useParams();
-  const fullName =authUser?.user?.fullName;
-  const profilePic=authUser?.user?.profilePic;
-  const leetcodeUsername =authUser?.user?.codingProfiles?.leetcode;
-  const codeChefUsername =authUser?.user?.codingProfiles?.codechef;
-  const codeForcesUsername=authUser?.user?.codingProfiles?.codeforces;
+  const fullName =authUser?.fullName;
+  const profilePic=authUser?.profilePic;
+  const leetcodeUsername =authUser?.codingProfiles?.leetcode;
+  const codeChefUsername =authUser?.codingProfiles?.codechef;
+  const codeForcesUsername=authUser?.codingProfiles?.codeforces;
   
   const [filteredPosts, setFilteredPosts] = useState(null); // Consistent naming
 
