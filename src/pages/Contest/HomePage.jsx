@@ -1,4 +1,4 @@
-import ContestList from "../components/ContestList";
+import ContestList from "../../components/ContestList";
 import Header from "./Header";
 
 const HomePage = () => {

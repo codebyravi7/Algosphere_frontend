@@ -1,9 +1,9 @@
 import { useState } from "react";
-import lclogo from "../../public/images/platforms/leetcode.png";
-import cflogo from "../../public/images/platforms/codeforces.png";
-import cclogo from "../../public/images/platforms/codechef.jpeg";
+import lclogo from "../../../public/images/platforms/leetcode.png";
+import cflogo from "../../../public/images/platforms/codeforces.png";
+import cclogo from "../../../public/images/platforms/codechef.jpeg";
 import axios from "axios";
-import { useAuthContext } from "../context/AuthContext";
+import { useAuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const AddProfile = () => {

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useAuthContext } from "../../context/AuthContext";
+import { useAuthContext } from "../context/AuthContext";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -12,8 +12,8 @@ import {
   MenuItem,
   MenuItems,
 } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import logo from "../../../public/logo.png";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import logo from "../../public/logo.png";
 
 const navigation = [
   { name: "Write", href: "/write/post/1", current: false },

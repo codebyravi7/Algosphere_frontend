@@ -1,12 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { PLATFORM } from "../types/contest";
+import { PLATFORM } from "../utils/types/contest";
 
 const FetchInteravlMs = 60 * 60 * 1000; // 1 hour
 const PLATFORM_KEY = "platform";
 const CONTESTS_KEY = "contests";
 
- const DEFAULT_PLATFORMS = [
+const DEFAULT_PLATFORMS = [
   PLATFORM.CODECHEF,
   PLATFORM.CODEFORCES,
   PLATFORM.LEETCODE,

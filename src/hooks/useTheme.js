@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MODE } from "../types/theme";
+import { MODE } from "../utils/types/theme";
 
 const THEME_KEY = "theme";
 

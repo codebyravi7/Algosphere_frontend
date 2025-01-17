@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useAuthContext } from "../../context/AuthContext";
+import { useAuthContext } from "../context/AuthContext";
 import axios from "axios";
 import { useState } from "react";
-import Button from "../Smallcomps/Button";
+import Button from "./Smallcomps/Button";
 export default function SinglePost(post) {
   const post1 = post?.post;
   const { authUser, token, loading, error, handleAddComment, handleDelete } =

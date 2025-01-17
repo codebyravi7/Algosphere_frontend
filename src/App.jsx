@@ -1,24 +1,29 @@
 import { Route, Routes, Navigate, Outlet } from "react-router-dom";
-import Topbar from "./components/topbar/Topbar.jsx";
-import Homepage from "./pages/homepage/Homepage";
-import Login from "./pages/login/Login";
-import Register from "./pages/register/Register";
-import { useAuthContext } from "./context/AuthContext";
-import Settings from "./pages/settings/Settings";
-import Single from "./pages/single/Single";
-import Write from "./pages/write/Write";
-import QuesList from "./pages/coding/QuesList";
-import EditPost from "./pages/edit/Editpost";
-import SearchedBlog from "./pages/searchPage/Search";
-import Footer from "./components/Footer";
-import Page404 from "./pages/Page404";
-import ContestList from "./components/ContestList";
 import { Toaster } from "react-hot-toast";
-import AddProfile from "./pages/AddProfiles.jsx";
-import Discusspage from "./pages/Discusspage.jsx";
-import UserProfile from "./pages/UserProfile";
 import useTheme from "./hooks/useTheme.js";
+import { useAuthContext } from "./context/AuthContext";
+import Topbar from "./components/Topbar.jsx";
+import Login from "./pages/Auth/Login.jsx";
+import Register from "./pages/Auth/Register.jsx";
 import TermsAndConditions from "./pages/Anonymous/Terms.jsx";
+import AddProfile from "./pages/User/AddProfiles.jsx";
+import Homepage from "./pages/Home/Homepage.jsx";
+//user pages
+import UserProfile from "./pages/User/UserProfile.jsx";
+import Settings from "./pages/User/Settings.jsx";
+
+import Single from "./pages/Post/Single.jsx";
+import SearchedBlog from "./pages/Post/Search.jsx";
+import Write from "./pages/Post/Write.jsx";
+import EditPage from "./pages/Post/Search.jsx";
+//contest
+import ContestList from "./pages/Contest/HomePage.jsx";
+//questions page
+import QuesList from "./pages/coding/QuesList.jsx";
+import Discusspage from "./pages/Post/Search.jsx";
+
+import Footer from "./components/Footer.jsx";
+import Page404 from "./pages/Anonymous/Page404.jsx";
 
 // ProtectedRoute Component
 function ProtectedRoute() {
@@ -51,7 +56,7 @@ function App() {
           <Route path="/question/:id" element={<Discusspage />} />
           <Route path="/post/:id" element={<Single />} />
           <Route path="/write/:id/:qid" element={<Write />} />
-          <Route path="/edit-post/:id" element={<EditPost />} />
+          <Route path="/edit-post/:id" element={<EditPage />} />
         </Route>
         <Route path="*" element={<Page404 />} />
       </Routes>

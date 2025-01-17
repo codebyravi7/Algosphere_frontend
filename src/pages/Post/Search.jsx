@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import Showposts from "../../components/showposts/Showposts";
+import Showposts from "../../components/Showposts";
 import Button from "../../components/Smallcomps/Button";
 
 export default function SearchedBlog() {

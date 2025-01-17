@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import ProfileHeader from "../components/profile/ProfileHeader";
+import ProfileHeader from "../../components/ProfileHeader";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { useAuthContext } from "../context/AuthContext";
-import Showposts from "../components/showposts/Showposts";
-import AllProfile from "../codingProfiles/Coding/AllProfile";
-import Button from "../components/Smallcomps/Button";
+import { useAuthContext } from "../../context/AuthContext";
+import Showposts from "../../components/Showposts";
+import AllProfile from "../../codingProfiles/Coding/AllProfile";
+import Button from "../../components/Smallcomps/Button";
 
 function UserProfile() {
   const { token,authUser } = useAuthContext();
@@ -19,8 +19,6 @@ function UserProfile() {
   const [filteredPosts, setFilteredPosts] = useState(null); // Consistent naming
 
   
-  console.log("id",id)
-  console.log("authuser",authUser)
 
   useEffect(() => {
     const fetchProfile = async () => {

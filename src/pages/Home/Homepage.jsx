@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Loading from "../../components/Smallcomps/Loading";
 import { useAuthContext } from "../../context/AuthContext";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Showposts from "../../components/showposts/Showposts";
+import Showposts from "../../components/Showposts";
 
 export default function Homepage() {
   const { showPosts } = useAuthContext();
