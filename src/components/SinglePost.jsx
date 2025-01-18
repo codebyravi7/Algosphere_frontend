@@ -24,6 +24,7 @@ export default function SinglePost({ post }) {
     setComment("");
   };
 
+
   return (
     <div className="text-black dark:text-white shadow-lg  bg-gray-50 dark:bg-gray-800 pt-20 mx-auto max-w-7xl px-4 ">
       <h1 className="text-center text-3xl font-bold font-lora">
@@ -44,7 +45,7 @@ export default function SinglePost({ post }) {
             <b>
               <Link
                 className="text-blue-600 hover:text-blue-800"
-                to={`/${post?.user?._id}/profile`}
+                to={`/${post?.user}/profile`}
               >
                 {post?.user?.fullName}
               </Link>
@@ -53,7 +54,7 @@ export default function SinglePost({ post }) {
           <span className="ml-2">1 day ago</span>
         </div>
         <div className="buttons">
-          {post?.user?._id === authUser._id && (
+          {post?.user === authUser?._id && (
             <div className="flex justify-end gap-3">
               <button
                 onClick={() =>
