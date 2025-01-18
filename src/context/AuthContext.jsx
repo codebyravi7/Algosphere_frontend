@@ -9,10 +9,9 @@ export const useAuthContext = () => {
 };
 
 export const AuthContextProvider = ({ children }) => {
-  const [authUser, setAuthUser] = useState(
-    JSON.parse(localStorage.getItem("jwt")) || null
-  );
-  const token = authUser?.token;
+  const user = JSON.parse(localStorage.getItem("jwt")) || null;
+  const [authUser, setAuthUser] = useState(user?.user);
+  const token = user?.token;
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -164,7 +163,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const areFriend = (id) => {
-    return friends.includes(id);
+    return friends?.includes(id);
   };
   const addPost = async (formData, id, qid) => {
     try {
@@ -309,8 +308,11 @@ export const AuthContextProvider = ({ children }) => {
           withCredentials: true,
         }
       );
+      
+      toast.success("Comment added successfully.");
+      return api?.data;
     } catch (err) {
-      setError("Failed to add comment. Please try again.");
+      setError(`Failed to add comment. Please try again.,${err}`);
     } finally {
       setLoading(false);
     }
@@ -370,6 +372,101 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
+  const fetchReplies = async (id) => {
+    console.log("id:: ", id);
+    setLoading(true);
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_APP_URL}/api/post/reply/${id}`,
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Auth: token,
+          },
+          withCredentials: true,
+        }
+      );
+      return res.data.replies;
+    } catch (error) {
+      toast.error("Failed to delete post. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const addReply = async (id, reply) => {
+    if (!reply?.trim()) return; // prevent empty comments
+    setLoading(true);
+    setError("");
+    try {
+      const api = await axios.post(
+        `${import.meta.env.VITE_APP_URL}/api/post/reply`,
+        {
+          commentId: id,
+          content: reply,
+        },
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Auth: token,
+          },
+          withCredentials: true,
+        }
+      );
+      return api?.data;
+    } catch (err) {
+      setError("Failed to add reply. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  const editComment = async (id, content) => {
+    if (!content.trim()) return; // prevent empty comments
+    setLoading(true);
+    setError("");
+    try {
+      const api = await axios.put(
+        `${import.meta.env.VITE_APP_URL}/api/post/comment/${id}`,
+        {
+          content: content,
+        },
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Auth: token,
+          },
+          withCredentials: true,
+        }
+      );
+      return api?.data;
+    } catch (err) {
+      setError("Failed to add reply. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  const deleteComment = async (id, postId) => {
+    setLoading(true);
+    setError("");
+    try {
+      const api = await axios.delete(
+        `${import.meta.env.VITE_APP_URL}/api/post/comment`,
+        {
+          data: { commentId: id, postId: postId },
+          headers: {
+            "Content-Type": "Application/json",
+            Auth: token,
+          },
+          withCredentials: true,
+        }
+      );
+      return api?.data;
+    } catch (err) {
+      setError("Failed to add reply. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <AuthContext.Provider
       value={{
@@ -392,13 +489,16 @@ export const AuthContextProvider = ({ children }) => {
         handleDelete,
         friends,
         sendNotification,
+        fetchReplies,
+        addReply,
+        editComment,
+        deleteComment,
       }}
     >
       {children}
     </AuthContext.Provider>
   );
 };
-
 
 /*utility functions */
 function handleInputErrorssignup({

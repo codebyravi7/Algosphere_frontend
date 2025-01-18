@@ -1,25 +1,27 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "./Smallcomps/Button";
+import Comment from "./Comment";
 export default function SinglePost({ post }) {
   const { authUser, token, loading, error, handleAddComment, handleDelete } =
     useAuthContext();
   const navigate = useNavigate();
   const [comment, setComment] = useState("");
 
-  const comments = post?.comments || [];
-
+  const [comments, setComments] = useState(post?.comments || []);
+  useEffect(() => {
+    setComments(post?.comments);
+  }, [post?.comments]);
   const handleDeletePost = async () => {
     await handleDelete({ id: post?._id });
   };
 
   const handleComment = async (e) => {
     e.preventDefault();
-    console.log(comment);
-    comments.unshift({ _id: Date.now(), user: authUser, content: comment });
+    const res = await handleAddComment({ comment, id: post?._id });
+    setComments((prev) => [res?.comment, ...prev]);
     setComment("");
-    await handleAddComment({ comment, id: post?._id });
   };
 
   return (
@@ -113,14 +115,14 @@ export default function SinglePost({ post }) {
 
         {/* Comments List */}
         <div className="mt-5">
-          {comments.length > 0 ? (
-            comments.map((comment) => (
-              <div
-                key={comment._id}
-                className="border border-gray-300 rounded-lg p-3 my-2  shadow-md"
-              >
-                <p className="font-semibold ">{comment?.user?.fullName}</p>
-                <p className="">{comment.content}</p>
+          {comments && comments?.length > 0 ? (
+            comments?.map((comment) => (
+              <div className="mt-3">
+                <Comment
+                  key={comment?._id}
+                  comment={comment}
+                  postId={post?._id}
+                />
               </div>
             ))
           ) : (
