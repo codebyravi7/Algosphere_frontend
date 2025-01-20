@@ -59,7 +59,7 @@ const ContestList = () => {
 
         {filteredContests.length > 0 ? (
           <>
-            <h2 className="font-semibold text-sm text-gray-800 dark:text-gray-200 text-left">
+            <h2 className="font-semibold text-sm text-gray-800 dark:text-gray-200  text-left">
               {filteredContests.length} contest
               {filteredContests.length > 1 && "s"} found
             </h2>

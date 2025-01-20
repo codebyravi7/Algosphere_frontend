@@ -37,7 +37,7 @@ const Card = ({ contest }) => {
     await sendNotification(title, startTime, link);
   };
   return (
-    <div className="flex p-1 border-b-4 border-x-2 rounded-b-3xl">
+    <div className="flex p-1 border-b-4 border-x-2 rounded-b-3xl dark:text-white dark:bg-gray-800">
       <a
         href={contest?.url}
         target="_blank"
